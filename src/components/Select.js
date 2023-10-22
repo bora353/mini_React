@@ -14,7 +14,7 @@ const flexContainerStyle = {
 };
 
 const searchallStyle = {
-  marginLeft: "100px",
+  marginLeft: "150px",
 };
 
 export default function Select() {

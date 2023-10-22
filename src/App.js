@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" exact element={<DataSearchPage />} />
+        <Route path="*" exact element={<DataSearchPage />} />
         <Route path="/filecheck" element={<FileCheckPage />} />
         <Route path="/summary" element={<SummaryPage />} />
         <Route path="/integrateddata" element={<IntegratedDataPage />} />
