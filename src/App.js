@@ -1,37 +1,22 @@
 import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
+import DataSearchPage from "./pages/DataSearchPage";
+import FileCheckPage from "./pages/FileCheckPage";
+import SummaryPage from "./pages/SummaryPage";
+import IntegratedDataPage from "./pages/IntegratedDataPage";
 
 function App() {
-  const [data, setData] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("/parsing")
-      .then((response) => {
-        console.log(response.data);
-        //console.log(response.data.dataMapList[0].DEFECTID);
-        //console.log(response.data.dataMapList[0]);
-        //console.log(response.data.waferID);
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }, []);
-
   return (
-    <div className="App">
-      <h2>React 화면~</h2>
-      {<p>lotID : {data.lotID}</p>}
-      {<p>deviceID : {data.deviceID}</p>}
-      {<p>stepID : {data.stepID}</p>}
-      {<p>equipID : {data.equipID}</p>}
-      {<p>ppID : {data.ppID}</p>}
-      {<p>resultTimestamp : {data.resultTimestamp}</p>}
-      {<p>slotNo : {data.slotNo}</p>}
-      {<p>waferID : {data.waferID}</p>}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" exact element={<DataSearchPage />} />
+        <Route path="/filecheck" element={<FileCheckPage />} />
+        <Route path="/summary" element={<SummaryPage />} />
+        <Route path="/integrateddata" element={<IntegratedDataPage />} />
+      </Routes>
+    </Router>
   );
 }
 
