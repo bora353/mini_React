@@ -1,35 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Defect from "./Defect";
 import { Link } from "react-router-dom";
-
-const rows = [
-  {
-    id: 1,
-    lotID: 1,
-    WaferID: "abc",
-    deviceID: "Jon",
-    stepID: 35,
-    equipID: 123,
-    ppID: 456,
-    resultTimestamp: "abc",
-    slotNo: 1,
-  },
-  {
-    id: 2,
-    lotID: 2,
-    WaferID: "def",
-    deviceID: "Jon",
-    stepID: 53,
-    equipID: 987,
-    ppID: 888,
-    resultTimestamp: "ggg",
-    slotNo: 7,
-  },
-];
+import axios from "axios";
 
 export default function Lot_Wafer() {
-  const [selectedRows, setSelectedRows] = useState(rows);
+  const [dbData, setDbData] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedWaferNo, setSelectedWaferNo] = useState(null);
 
   const handleSelectionModelChange = (newSelection) => {
     setSelectedRows(newSelection.selectionModel);
@@ -37,44 +15,87 @@ export default function Lot_Wafer() {
     console.log("상태!!:", selectedRows);
   };
 
-  const [selectedWaferID, setSelectedWaferID] = useState(null);
+  useEffect(() => {
+    axios
+      .get("/parsing")
+      .then((response) => {
+        // "LotWafers" 배열의 각 요소를 별도의 행으로 변환
+        const rows = response.data.LotWafers.map((lot) => ({
+          id: lot.LotNo,
+          LotNo: lot.LotNo,
+          LotId: lot.Lots[0].LotId,
+          WaferNo: lot.Lots[0].Wafers[0].WaferNo,
+          LineId: lot.Lots[0].LineId,
+          DeviceId: lot.Lots[0].DeviceId,
+          StepId: lot.Lots[0].StepId,
+          EquipID: lot.Lots[0].EquipId,
+          PpID: lot.Lots[0].PpId,
+          ScanTime: lot.Lots[0].ScanTime,
+          SaveDate: lot.Lots[0].SaveDate,
+          SlotId: lot.Lots[0].Wafers[0].SlotId,
+          SampleSize: lot.Lots[0].Wafers[0].SampleSize,
+          SampleCenterLocationX: lot.Lots[0].Wafers[0].SampleCenterLocationX,
+          SampleCenterLocationY: lot.Lots[0].Wafers[0].SampleCenterLocationY,
+          DiePitchX: lot.Lots[0].Wafers[0].DiePitchX,
+          DiePitchY: lot.Lots[0].Wafers[0].DiePitchY,
+        }));
+
+        setDbData(rows);
+      })
+      .catch((error) => {
+        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+      });
+  }, []);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 50 },
-    { field: "lotID", headerName: "LotID", width: 100 },
-    { field: "WaferID", headerName: "WaferID", width: 100 },
+    { field: "LotNo", headerName: "LotNo", width: 50 },
+    { field: "LotId", headerName: "LotID", width: 100 },
+    { field: "WaferNo", headerName: "WaferID", width: 100 },
+    { field: "LineId", headerName: "LineId", width: 100 },
     {
-      field: "deviceID",
+      field: "DeviceId",
       headerName: "DeviceID",
       type: "number",
       width: 100,
     },
     {
-      field: "stepID",
+      field: "StepId",
       headerName: "StepID",
-      description: "This column has a value getter and is not sortable.",
+      //description: "This column has a value getter and is not sortable.",
       sortable: false,
-      width: 100,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+      width: 200,
     },
-    { field: "equipID", headerName: "EquipID", width: 100 },
-    { field: "ppID", headerName: "PpID", width: 100 },
-    { field: "resultTimestamp", headerName: "ResultTimestamp", width: 150 },
-    { field: "slotNo", headerName: "SlotNo", width: 100 },
+    { field: "EquipID", headerName: "EquipID", width: 100 },
+    { field: "PpID", headerName: "PpID", width: 100 },
+    { field: "ScanTime", headerName: "ScanTime", width: 150 },
+    { field: "SaveDate", headerName: "SaveDate", width: 200 },
+    { field: "SlotId", headerName: "SlotNo", width: 100 },
+    { field: "SampleSize", headerName: "SampleSize", width: 100 },
+    {
+      field: "SampleCenterLocationX",
+      headerName: "SampleCenterLocationX",
+      width: 200,
+    },
+    {
+      field: "SampleCenterLocationY",
+      headerName: "SampleCenterLocationY",
+      width: 200,
+    },
+    { field: "DiePitchX", headerName: "DiePitchX", width: 150 },
+    { field: "DiePitchY", headerName: "DiePitchY", width: 150 },
     {
       field: "select",
       headerName: "Select",
       width: 90,
       renderCell: (params) => {
-        const handleRowClick = (waferID) => {
-          setSelectedWaferID(waferID);
+        const handleRowClick = (waferNo) => {
+          setSelectedWaferNo(waferNo);
         };
 
         return (
           <button
             className="userListEdit"
-            onClick={() => handleRowClick(params.row.WaferID)}
+            onClick={() => handleRowClick(params.row.WaferNo)}
           >
             상세보기
           </button>
@@ -97,30 +118,13 @@ export default function Lot_Wafer() {
     },
   ];
 
-  // const [data, setData] = useState("");
-
-  // useEffect(() => {
-  //   axios
-  //     .get("/parsing")
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       //console.log(response.data.dataMapList[0].DEFECTID);
-  //       //console.log(response.data.dataMapList[0]);
-  //       //console.log(response.data.waferID);
-  //       setData(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // }, []);
-
   return (
     <div style={{ marginTop: "50px" }}>
-      <h3>Lot / Wafer </h3>
+      <h3 style={{ margin: "10px 200px" }}>Lot / Wafer </h3>
 
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={selectedRows}
+          rows={dbData}
           columns={columns}
           disableSelectionOnClick
           initialState={{
@@ -129,20 +133,14 @@ export default function Lot_Wafer() {
             },
           }}
           pageSizeOptions={[5, 10]}
-          //checkboxSelection
+          getRowId={(row) => row.LotNo}
+          sx={{ margin: "0 200px" }}
           onSelectionModelChange={handleSelectionModelChange}
+          //checkboxSelection
           //selectionModel={selectedRows}
         />
       </div>
-      {/* {<p>lotID : {data.lotID}</p>}
-  {<p>deviceID : {data.deviceID}</p>}
-  {<p>stepID : {data.stepID}</p>}
-  {<p>equipID : {data.equipID}</p>}
-  {<p>ppID : {data.ppID}</p>}
-  {<p>resultTimestamp : {data.resultTimestamp}</p>}
-  {<p>slotNo : {data.slotNo}</p>}
-  {<p>waferID : {data.waferID}</p>} */}
-      <Defect selectedWaferID={selectedWaferID} />
+      <Defect selectedWaferNo={selectedWaferNo} />
     </div>
   );
 }

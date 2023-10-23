@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
-  { field: "WaferID", headerName: "WaferID", width: 100 },
+  { field: "WaferNo", headerName: "WaferNo", width: 100 },
   {
     field: "DefectID",
     headerName: "DefectID",
@@ -13,25 +13,26 @@ const columns = [
 const rows = [
   {
     id: 1,
-    WaferID: "abc",
+    WaferNo: "01",
     DefectID: "123",
   },
   {
     id: 2,
-    WaferID: "def",
+    WaferNo: "def",
     DefectID: "456",
   },
 ];
 
-export default function Defect({ selectedWaferID }) {
-  const filteredRows = selectedWaferID
-    ? rows.filter((row) => row.WaferID === selectedWaferID)
+export default function Defect({ selectedWaferNo }) {
+  const filteredRows = selectedWaferNo
+    ? rows.filter((row) => row.WaferNo === selectedWaferNo)
     : [];
 
   return (
     <div>
       <div style={{ marginTop: "50px" }}>
-        <h3>Defect</h3>
+        <h3 style={{ margin: "10px 200px" }}>Defect</h3>
+
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             rows={filteredRows}
@@ -43,6 +44,7 @@ export default function Defect({ selectedWaferID }) {
               },
             }}
             pageSizeOptions={[5, 10]}
+            sx={{ margin: "0 200px" }}
           />
         </div>
       </div>
