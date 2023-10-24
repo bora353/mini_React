@@ -5,6 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Searchall from "./Searchall";
+import Button from "@mui/material/Button";
 
 const flexContainerStyle = {
   display: "flex",
@@ -17,8 +18,12 @@ const searchallStyle = {
   marginLeft: "150px",
 };
 
+const buttonStyle = {
+  marginLeft: "5px", // 원하는 마진 값으로 설정
+};
+
 export default function Select() {
-  const [value, setValue] = React.useState(dayjs());
+  // const [value, setValue] = React.useState(dayjs());
   const [startDate, setStartDate] = React.useState(dayjs());
   const [endDate, setEndDate] = React.useState(dayjs());
 
@@ -50,7 +55,9 @@ export default function Select() {
             />
           </DemoContainer>
         </LocalizationProvider>
-
+        <Button variant="outlined" style={buttonStyle}>
+          검색
+        </Button>
         {/* search ======================================================= */}
         <div style={searchallStyle}>
           <Searchall />

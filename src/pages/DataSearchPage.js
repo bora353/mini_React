@@ -3,7 +3,6 @@ import Bar from "../components/Bar";
 import Select from "../components/Select";
 import Title from "../components/Title";
 import LotWafer from "../components/LotWafer";
-import Image from "../components/Image";
 
 export default function DataSearchPage() {
   return (
@@ -12,7 +11,6 @@ export default function DataSearchPage() {
       <Title />
       <Select />
       <LotWafer />
-      <Image />
     </div>
   );
 }

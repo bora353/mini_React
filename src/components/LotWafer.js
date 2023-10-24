@@ -3,11 +3,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import Defect from "./Defect";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Image from "../components/Image";
 
 export default function Lot_Wafer() {
   const [dbData, setDbData] = useState([]);
-  //const [selectedRows, setSelectedRows] = useState([]);
   const [selectedSlotNo, setSelectedSlotNo] = useState(null);
+
+  //const [selectedRows, setSelectedRows] = useState([]);
 
   // const handleSelectionModelChange = (newSelection) => {
   //   setSelectedRows(newSelection.selectionModel);
@@ -143,6 +145,7 @@ export default function Lot_Wafer() {
         />
       </div>
       <Defect selectedSlotNo={selectedSlotNo} />
+      <Image selectedSlotNo={selectedSlotNo} />
     </div>
   );
 }

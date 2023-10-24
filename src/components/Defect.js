@@ -8,7 +8,7 @@ const columns = [
   { field: "XRel", headerName: "XRel" },
   { field: "YRel", headerName: "YRel" },
   { field: "XIndex", headerName: "XIndex" },
-  { field: "XIndex", headerName: "XIndex" },
+  { field: "YIndex", headerName: "YIndex" },
   { field: "RoughBinNumber", headerName: "RoughBinNumber", width: 200 },
   { field: "FineBinNumber", headerName: "FineBinNumber", width: 200 },
 ];
@@ -57,7 +57,7 @@ export default function Defect({ selectedSlotNo }) {
             disableSelectionOnClick
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
             }}
             pageSizeOptions={[5, 10]}
