@@ -153,6 +153,8 @@ export default function Lot_Wafer() {
       <Image
         selectedSlotNo={selectedSlotNo}
         selectedDefectNo={selectedDefectNo}
+        setSelectedSlotNo={setSelectedSlotNo}
+        setSelectedDefectNo={setSelectedDefectNo}
       />
     </div>
   );
