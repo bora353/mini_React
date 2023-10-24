@@ -2,7 +2,8 @@ import React from "react";
 import Bar from "../components/Bar";
 import Select from "../components/Select";
 import Title from "../components/Title";
-import Lot_Wafer from "../components/Lot_Wafer";
+import LotWafer from "../components/LotWafer";
+import Image from "../components/Image";
 
 export default function DataSearchPage() {
   return (
@@ -10,7 +11,8 @@ export default function DataSearchPage() {
       <Bar />
       <Title />
       <Select />
-      <Lot_Wafer />
+      <LotWafer />
+      <Image />
     </div>
   );
 }

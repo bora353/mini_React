@@ -1,31 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 50 },
-  { field: "WaferNo", headerName: "WaferNo", width: 100 },
-  {
-    field: "DefectID",
-    headerName: "DefectID",
-  },
+  { field: "DefectNo", headerName: "DefectNo", width: 100 },
+  { field: "DefectId", headerName: "DefectId", width: 100 },
+  { field: "XRel", headerName: "XRel" },
+  { field: "YRel", headerName: "YRel" },
+  { field: "XIndex", headerName: "XIndex" },
+  { field: "XIndex", headerName: "XIndex" },
+  { field: "RoughBinNumber", headerName: "RoughBinNumber", width: 200 },
+  { field: "FineBinNumber", headerName: "FineBinNumber", width: 200 },
 ];
 
-const rows = [
-  {
-    id: 1,
-    WaferNo: "01",
-    DefectID: "123",
-  },
-  {
-    id: 2,
-    WaferNo: "def",
-    DefectID: "456",
-  },
-];
+// const rows = [
+//   {
+//     id: 1,
+//     WaferNo: "01",
+//     DefectID: "123",
+//   },
+//   {
+//     id: 2,
+//     WaferNo: "def",
+//     DefectID: "456",
+//   },
+// ];
 
-export default function Defect({ selectedWaferNo }) {
-  const filteredRows = selectedWaferNo
-    ? rows.filter((row) => row.WaferNo === selectedWaferNo)
+export default function Defect({ selectedSlotNo }) {
+  const [defectData, setDefectData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/parsing")
+      .then((response) => {
+        console.log(response.data.Defects);
+        setDefectData(response.data.Defects);
+      })
+      .catch((error) => {
+        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+      });
+  }, []);
+
+  const filteredRows = selectedSlotNo
+    ? defectData.filter((row) => row.SlotNo === selectedSlotNo)
     : [];
 
   return (
@@ -44,6 +61,7 @@ export default function Defect({ selectedWaferNo }) {
               },
             }}
             pageSizeOptions={[5, 10]}
+            getRowId={(row) => row.DefectNo}
             sx={{ margin: "0 200px" }}
           />
         </div>

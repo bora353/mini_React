@@ -6,14 +6,14 @@ import axios from "axios";
 
 export default function Lot_Wafer() {
   const [dbData, setDbData] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedWaferNo, setSelectedWaferNo] = useState(null);
+  //const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedSlotNo, setSelectedSlotNo] = useState(null);
 
-  const handleSelectionModelChange = (newSelection) => {
-    setSelectedRows(newSelection.selectionModel);
-    console.log("선택된 행:", newSelection.selectionModel);
-    console.log("상태!!:", selectedRows);
-  };
+  // const handleSelectionModelChange = (newSelection) => {
+  //   setSelectedRows(newSelection.selectionModel);
+  //   console.log("선택된 행:", newSelection.selectionModel);
+  //   console.log("상태!!:", selectedRows);
+  // };
 
   useEffect(() => {
     axios
@@ -33,6 +33,7 @@ export default function Lot_Wafer() {
           ScanTime: lot.Lots[0].ScanTime,
           SaveDate: lot.Lots[0].SaveDate,
           SlotId: lot.Lots[0].Wafers[0].SlotId,
+          SlotNo: lot.Lots[0].Wafers[0].SlotNo,
           SampleSize: lot.Lots[0].Wafers[0].SampleSize,
           SampleCenterLocationX: lot.Lots[0].Wafers[0].SampleCenterLocationX,
           SampleCenterLocationY: lot.Lots[0].Wafers[0].SampleCenterLocationY,
@@ -49,6 +50,7 @@ export default function Lot_Wafer() {
 
   const columns = [
     { field: "LotNo", headerName: "LotNo", width: 50 },
+    { field: "SlotNo", headerName: "SlotNo", width: 50 },
     { field: "LotId", headerName: "LotID", width: 100 },
     { field: "WaferNo", headerName: "WaferID", width: 100 },
     { field: "LineId", headerName: "LineId", width: 100 },
@@ -88,14 +90,14 @@ export default function Lot_Wafer() {
       headerName: "Select",
       width: 90,
       renderCell: (params) => {
-        const handleRowClick = (waferNo) => {
-          setSelectedWaferNo(waferNo);
+        const handleRowClick = (SlotNo) => {
+          setSelectedSlotNo(SlotNo);
         };
 
         return (
           <button
             className="userListEdit"
-            onClick={() => handleRowClick(params.row.WaferNo)}
+            onClick={() => handleRowClick(params.row.SlotNo)}
           >
             상세보기
           </button>
@@ -135,12 +137,12 @@ export default function Lot_Wafer() {
           pageSizeOptions={[5, 10]}
           getRowId={(row) => row.LotNo}
           sx={{ margin: "0 200px" }}
-          onSelectionModelChange={handleSelectionModelChange}
+          //onSelectionModelChange={handleSelectionModelChange}
           //checkboxSelection
           //selectionModel={selectedRows}
         />
       </div>
-      <Defect selectedWaferNo={selectedWaferNo} />
+      <Defect selectedSlotNo={selectedSlotNo} />
     </div>
   );
 }
