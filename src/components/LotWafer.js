@@ -8,6 +8,7 @@ import Image from "../components/Image";
 export default function Lot_Wafer() {
   const [dbData, setDbData] = useState([]);
   const [selectedSlotNo, setSelectedSlotNo] = useState(null);
+  const [selectedDefectNo, setSelectedDefectNo] = useState(null);
 
   //const [selectedRows, setSelectedRows] = useState([]);
 
@@ -52,7 +53,7 @@ export default function Lot_Wafer() {
 
   const columns = [
     { field: "LotNo", headerName: "LotNo", width: 50 },
-    { field: "SlotNo", headerName: "SlotNo", width: 50 },
+    { field: "SlotNo", headerName: "SlotNo(지워)", width: 50 },
     { field: "LotId", headerName: "LotID", width: 100 },
     { field: "WaferNo", headerName: "WaferID", width: 100 },
     { field: "LineId", headerName: "LineId", width: 100 },
@@ -144,8 +145,15 @@ export default function Lot_Wafer() {
           //selectionModel={selectedRows}
         />
       </div>
-      <Defect selectedSlotNo={selectedSlotNo} />
-      <Image selectedSlotNo={selectedSlotNo} />
+      <Defect
+        selectedSlotNo={selectedSlotNo}
+        selectedDefectNo={selectedDefectNo}
+        setSelectedDefectNo={setSelectedDefectNo}
+      />
+      <Image
+        selectedSlotNo={selectedSlotNo}
+        selectedDefectNo={selectedDefectNo}
+      />
     </div>
   );
 }

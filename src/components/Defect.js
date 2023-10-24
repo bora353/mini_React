@@ -2,17 +2,6 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 
-const columns = [
-  { field: "DefectNo", headerName: "DefectNo", width: 100 },
-  { field: "DefectId", headerName: "DefectId", width: 100 },
-  { field: "XRel", headerName: "XRel" },
-  { field: "YRel", headerName: "YRel" },
-  { field: "XIndex", headerName: "XIndex" },
-  { field: "YIndex", headerName: "YIndex" },
-  { field: "RoughBinNumber", headerName: "RoughBinNumber", width: 200 },
-  { field: "FineBinNumber", headerName: "FineBinNumber", width: 200 },
-];
-
 // const rows = [
 //   {
 //     id: 1,
@@ -26,8 +15,44 @@ const columns = [
 //   },
 // ];
 
-export default function Defect({ selectedSlotNo }) {
+export default function Defect({
+  selectedSlotNo,
+  selectedDefectNo,
+  setSelectedDefectNo,
+}) {
   const [defectData, setDefectData] = useState([]);
+
+  //const [selectedDefectNo, setSelectedDefectNo] = useState(null);
+
+  const columns = [
+    { field: "DefectNo", headerName: "DefectNo", width: 100 },
+    { field: "DefectId", headerName: "DefectId", width: 100 },
+    { field: "XRel", headerName: "XRel" },
+    { field: "YRel", headerName: "YRel" },
+    { field: "XIndex", headerName: "XIndex" },
+    { field: "YIndex", headerName: "YIndex" },
+    { field: "RoughBinNumber", headerName: "RoughBinNumber", width: 200 },
+    { field: "FineBinNumber", headerName: "FineBinNumber", width: 200 },
+    {
+      field: "select",
+      headerName: "Select",
+      width: 90,
+      renderCell: (params) => {
+        const handleRowClick = (DefectNo) => {
+          setSelectedDefectNo(DefectNo);
+        };
+
+        return (
+          <button
+            className="userListEdit"
+            onClick={() => handleRowClick(params.row.DefectNo)}
+          >
+            상세보기
+          </button>
+        );
+      },
+    },
+  ];
 
   useEffect(() => {
     axios

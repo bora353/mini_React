@@ -3,23 +3,37 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import axios from "axios";
 
-export default function Image({ selectedSlotNo }) {
+export default function Image({ selectedSlotNo, selectedDefectNo }) {
   const [imageData, setImageData] = useState([]);
 
   useEffect(() => {
     axios
       .get("/parsing")
+
       .then((response) => {
-        const images = response.data.Images;
-        const filteredImages = images.filter(
-          (item) => item.SlotNo === selectedSlotNo
-        );
+        console.log(selectedSlotNo);
+        console.log(selectedDefectNo);
+        let images = response.data.Images;
+        let filteredImages = images;
+
+        if (selectedDefectNo) {
+          filteredImages = filteredImages.filter(
+            (item) => item.DefectNo === selectedDefectNo
+          );
+        }
+
+        if (selectedSlotNo) {
+          filteredImages = filteredImages.filter(
+            (item) => item.SlotNo === selectedSlotNo
+          );
+        }
+
         setImageData(filteredImages);
       })
       .catch((error) => {
         console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
       });
-  }, [selectedSlotNo]);
+  }, [selectedSlotNo, selectedDefectNo]);
 
   return (
     <div style={{ marginTop: "60px" }}>
