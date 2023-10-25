@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Bar from "../components/Bar";
 import Select from "../components/Select";
 import Title from "../components/Title";
@@ -18,6 +18,14 @@ const flexContainerStyle = {
 };
 
 export default function DataSearchPage() {
+  const [searchQuery, setSearchQuery] = useState(""); // 검색어
+  const [searchOption, setSearchOption] = useState("LotID"); // 검색 옵션
+
+  const handleSearch = (query, option) => {
+    setSearchQuery(query);
+    setSearchOption(option);
+  };
+
   return (
     <div>
       <Bar />
@@ -25,10 +33,10 @@ export default function DataSearchPage() {
       <div style={flexContainerStyle}>
         <Select />
         <div style={searchallStyle}>
-          <Searchall />
+          <Searchall onSearch={handleSearch} />
         </div>
       </div>
-      <LotWafer />
+      <LotWafer searchQuery={searchQuery} searchOption={searchOption} />
     </div>
   );
 }

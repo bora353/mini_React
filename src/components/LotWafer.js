@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Image from "../components/Image";
 
-export default function LotWafer() {
+export default function LotWafer({ searchQuery, searchOption }) {
   const [dbData, setDbData] = useState([]);
   const [selectedSlotNo, setSelectedSlotNo] = useState(null);
   const [selectedDefectNo, setSelectedDefectNo] = useState(null);
@@ -123,13 +123,21 @@ export default function LotWafer() {
     },
   ];
 
+  // 검색해서 데이터 필터링
+  const filteredData =
+    searchOption === "LotID"
+      ? dbData.filter((item) => item.LotId.includes(searchQuery))
+      : searchOption === "WaferID"
+      ? dbData.filter((item) => item.WaferNo === searchQuery)
+      : dbData;
+
   return (
     <div style={{ marginTop: "50px" }}>
       <h3 style={{ margin: "10px 200px" }}>Lot / Wafer </h3>
 
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={dbData}
+          rows={filteredData}
           columns={columns}
           disableSelectionOnClick
           initialState={{
@@ -147,7 +155,6 @@ export default function LotWafer() {
       </div>
       <Defect
         selectedSlotNo={selectedSlotNo}
-        selectedDefectNo={selectedDefectNo}
         setSelectedDefectNo={setSelectedDefectNo}
       />
       <Image

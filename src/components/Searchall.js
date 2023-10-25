@@ -51,12 +51,15 @@ const buttonStyle = {
   marginLeft: "5px",
 };
 
-export default function Searchall() {
-  const [selectedOption, setSelectedOption] = React.useState("LotID");
+export default function Searchall({ onSearch }) {
   const [searchValue, setSearchValue] = React.useState(""); // 검색어 상태
+  const [selectedOption, setSelectedOption] = React.useState("LotID");
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+
+    // 옵션 변경 시 검색어를 비움
+    setSearchValue("");
   };
 
   const handleSearch = () => {
@@ -64,8 +67,8 @@ export default function Searchall() {
     console.log("선택한 옵션:", selectedOption);
     console.log("검색어:", searchValue);
 
-    // 여기에서 검색 로직을 수행할 수 있음
-    // 검색 결과를 표시하거나 서버에 요청을 보낼 수 있음
+    // 검색 로직을 수행
+    onSearch(searchValue, selectedOption);
   };
 
   return (

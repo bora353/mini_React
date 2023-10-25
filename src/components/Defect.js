@@ -16,13 +16,10 @@ import axios from "axios";
 // ];
 
 export default function Defect({
-  selectedSlotNo,
-  selectedDefectNo,
-  setSelectedDefectNo,
+  selectedSlotNo = null,
+  setSelectedDefectNo = () => {},
 }) {
   const [defectData, setDefectData] = useState([]);
-
-  //const [selectedDefectNo, setSelectedDefectNo] = useState(null);
 
   const columns = [
     { field: "DefectNo", headerName: "DefectNo", width: 100 },
