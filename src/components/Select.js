@@ -4,22 +4,15 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Searchall from "./Searchall";
 import Button from "@mui/material/Button";
-
-const flexContainerStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  marginTop: "50px",
-};
-
-const searchallStyle = {
-  marginLeft: "150px",
-};
 
 const buttonStyle = {
   marginLeft: "5px", // 원하는 마진 값으로 설정
+};
+
+const containerStyle = {
+  display: "flex", // Flexbox 사용
+  alignItems: "center", // 수직 가운데 정렬
 };
 
 export default function Select() {
@@ -39,9 +32,8 @@ export default function Select() {
 
   return (
     <div style={{ marginTop: "50px" }}>
-      <div style={flexContainerStyle}>
-        {/* calandar ================================================ */}
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <div style={containerStyle}>
           <DemoContainer components={["DatePicker", "DatePicker"]}>
             <DatePicker
               label="시작일"
@@ -54,15 +46,11 @@ export default function Select() {
               onChange={handleEndDateChange}
             />
           </DemoContainer>
-        </LocalizationProvider>
-        <Button variant="outlined" style={buttonStyle}>
-          검색
-        </Button>
-        {/* search ======================================================= */}
-        <div style={searchallStyle}>
-          <Searchall />
+          <Button variant="outlined" style={buttonStyle}>
+            검색
+          </Button>
         </div>
-      </div>
+      </LocalizationProvider>
     </div>
   );
 }

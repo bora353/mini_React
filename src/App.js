@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 500); // 시간 변경 하기
   }, []);
 
   return (

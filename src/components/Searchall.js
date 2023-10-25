@@ -30,7 +30,6 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  height: "100%",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -49,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const buttonStyle = {
-  marginLeft: "5px", // 원하는 마진 값으로 설정
+  marginLeft: "5px",
 };
 
 export default function Searchall() {

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Image from "../components/Image";
 
-export default function Lot_Wafer() {
+export default function LotWafer() {
   const [dbData, setDbData] = useState([]);
   const [selectedSlotNo, setSelectedSlotNo] = useState(null);
   const [selectedDefectNo, setSelectedDefectNo] = useState(null);
