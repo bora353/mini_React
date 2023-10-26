@@ -26,17 +26,34 @@ export default function DataSearchPage() {
     setSearchOption(option);
   };
 
+  const [dateType, setDateType] = useState(""); // 데이터 타입
+  const [startDate, setStartDate] = useState(""); // 달력 시작일
+  const [endDate, setEndDate] = useState(""); // 달력 종료일
+
+  const handleDateSelect = (type, start, end) => {
+    setDateType(type);
+    setStartDate(start);
+    setEndDate(end);
+    console.log(dateType, start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD"));
+  };
+
   return (
     <div>
       <Bar />
       <Title />
       <div style={flexContainerStyle}>
-        <Select />
+        <Select onDateSelect={handleDateSelect} />
         <div style={searchallStyle}>
           <Searchall onSearch={handleSearch} />
         </div>
       </div>
-      <LotWafer searchQuery={searchQuery} searchOption={searchOption} />
+      <LotWafer
+        searchQuery={searchQuery}
+        searchOption={searchOption}
+        dateType={dateType}
+        startDate={startDate}
+        endDate={endDate}
+      />
     </div>
   );
 }

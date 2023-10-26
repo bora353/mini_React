@@ -5,7 +5,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Image from "../components/Image";
 
-export default function LotWafer({ searchQuery, searchOption }) {
+export default function LotWafer({
+  searchQuery,
+  searchOption,
+  startDate,
+  endDate,
+  dateType,
+}) {
   const [dbData, setDbData] = useState([]);
   const [selectedSlotNo, setSelectedSlotNo] = useState(null);
   const [selectedDefectNo, setSelectedDefectNo] = useState(null);
@@ -127,17 +133,76 @@ export default function LotWafer({ searchQuery, searchOption }) {
   const filteredData =
     searchOption === "LotID"
       ? dbData.filter((item) => item.LotId.includes(searchQuery))
-      : searchOption === "WaferID"
+      : searchOption === "WaferID" // searchOption가 LotID가 아니고 WaferID 인가?
       ? dbData.filter((item) => item.WaferNo === searchQuery)
       : dbData;
 
+  console.log("Lot Wafer dateType:", dateType);
+  console.log("startDate:", startDate);
+  console.log("endDate:", endDate);
+
+  // ScanTime 및 SaveDate에 따른 필터링
+  function parseScanTime(scanTime) {
+    if (!scanTime) {
+      return null; // 또는 다른 기본값으로 대체
+    }
+
+    const [datePart, timePart] = scanTime.split(" ");
+    const [month, day, year] = datePart.split("-");
+    const [hour, minute, second] = timePart.split(":");
+    const formattedTime = `20${year}-${month}-${day}T${hour}:${minute}:${second}`;
+
+    return new Date(formattedTime);
+  }
+
+  const filteredByDateRange =
+    dateType === "saveDate"
+      ? filteredData.filter((item) => {
+          const today = new Date();
+          const startOfDay = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate()
+          );
+          const endOfDay = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate() + 1
+          );
+          const itemDate = new Date(item.SaveDate);
+
+          console.log("여긴 saveDate일때");
+          console.log(itemDate);
+          console.log(startOfDay);
+          console.log(endOfDay);
+          return itemDate >= startOfDay && itemDate < endOfDay;
+        })
+      : dateType === "scanDate"
+      ? filteredData.filter((item) => {
+          const scanTime = parseScanTime(item.ScanTime);
+
+          const scanTimeDate = new Date(scanTime);
+          const startDateDate = new Date(startDate);
+          const endDateDate = new Date(endDate);
+
+          console.log("여긴 scanDate일때");
+          console.log(scanTimeDate);
+          console.log(startDateDate);
+          console.log(endDateDate);
+
+          return scanTimeDate >= startDateDate && scanTimeDate <= endDateDate;
+        })
+      : filteredData;
+
+  //console.log(filteredByDateRange);
+
   return (
-    <div style={{ marginTop: "50px" }}>
+    <div style={{ marginTop: "80px" }}>
       <h3 style={{ margin: "10px 200px" }}>Lot / Wafer </h3>
 
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={filteredData}
+          rows={filteredByDateRange}
           columns={columns}
           disableSelectionOnClick
           initialState={{

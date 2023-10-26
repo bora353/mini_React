@@ -4,8 +4,6 @@ import { styled, alpha } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,11 +47,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const buttonStyle = {
   marginLeft: "5px",
+  height: "35px",
 };
 
+const StyledSelect = styled("select")({
+  border: "1px solid #ccc",
+  borderRadius: "4px",
+  padding: "5px",
+  marginRight: "10px",
+  height: "35px",
+  //marginTop: "10px",
+});
+
 export default function Searchall({ onSearch }) {
-  const [searchValue, setSearchValue] = React.useState(""); // 검색어 상태
-  const [selectedOption, setSelectedOption] = React.useState("LotID");
+  const [searchValue, setSearchValue] = React.useState(""); // 검색어
+  const [selectedOption, setSelectedOption] = React.useState("LotID"); // 옵션
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -74,10 +82,14 @@ export default function Searchall({ onSearch }) {
   return (
     <div>
       <Toolbar>
-        <Select value={selectedOption} onChange={handleOptionChange} autoWidth>
-          <MenuItem value="LotID">LotID</MenuItem>
-          <MenuItem value="WaferID">WaferID</MenuItem>
-        </Select>
+        <StyledSelect
+          value={selectedOption}
+          onChange={handleOptionChange}
+          autoWidth
+        >
+          <option value="LotID">LotID</option>
+          <option value="WaferID">WaferID</option>
+        </StyledSelect>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
