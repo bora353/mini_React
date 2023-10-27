@@ -16,14 +16,6 @@ export default function LotWafer({
   const [selectedSlotNo, setSelectedSlotNo] = useState(null);
   const [selectedDefectNo, setSelectedDefectNo] = useState(null);
 
-  //const [selectedRows, setSelectedRows] = useState([]);
-
-  // const handleSelectionModelChange = (newSelection) => {
-  //   setSelectedRows(newSelection.selectionModel);
-  //   console.log("선택된 행:", newSelection.selectionModel);
-  //   console.log("상태!!:", selectedRows);
-  // };
-
   useEffect(() => {
     axios
       .get("/parsing")
@@ -61,8 +53,8 @@ export default function LotWafer({
     { field: "LotNo", headerName: "LotNo", width: 50 },
     { field: "SlotNo", headerName: "SlotNo(지워)", width: 50 },
     { field: "LotId", headerName: "LotID", width: 100 },
-    { field: "WaferNo", headerName: "WaferID", width: 100 },
-    { field: "LineId", headerName: "LineId", width: 100 },
+    { field: "WaferNo", headerName: "WaferID", width: 70 },
+    { field: "LineId", headerName: "LineId", width: 70 },
     {
       field: "DeviceId",
       headerName: "DeviceID",
@@ -74,13 +66,54 @@ export default function LotWafer({
       headerName: "StepID",
       //description: "This column has a value getter and is not sortable.",
       sortable: false,
-      width: 200,
+      width: 170,
     },
     { field: "EquipID", headerName: "EquipID", width: 100 },
-    { field: "PpID", headerName: "PpID", width: 100 },
-    { field: "ScanTime", headerName: "ScanTime", width: 150 },
-    { field: "SaveDate", headerName: "SaveDate", width: 200 },
-    { field: "SlotId", headerName: "SlotNo", width: 100 },
+    { field: "PpID", headerName: "PpID", width: 130 },
+    {
+      field: "ScanTime",
+      headerName: "ScanTime",
+      width: 200,
+      valueGetter: (params) => {
+        return new Date(params.row.ScanTime);
+      },
+      valueGetter: (params) => {
+        return new Date(params.row.ScanTime);
+      },
+      valueFormatter: (params) => {
+        const date = params.value;
+        const formattedDate = date.toLocaleString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        return formattedDate;
+      },
+    },
+    {
+      field: "SaveDate",
+      headerName: "SaveDate",
+      width: 200,
+      valueGetter: (params) => {
+        return new Date(params.row.SaveDate);
+      },
+      valueFormatter: (params) => {
+        const date = params.value;
+        const formattedDate = date.toLocaleString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        return formattedDate;
+      },
+    },
+    { field: "SlotId", headerName: "SlotNo", width: 70 },
     { field: "SampleSize", headerName: "SampleSize", width: 100 },
     {
       field: "SampleCenterLocationX",
@@ -94,34 +127,34 @@ export default function LotWafer({
     },
     { field: "DiePitchX", headerName: "DiePitchX", width: 150 },
     { field: "DiePitchY", headerName: "DiePitchY", width: 150 },
-    {
-      field: "select",
-      headerName: "Select",
-      width: 90,
-      renderCell: (params) => {
-        const handleRowClick = (SlotNo) => {
-          setSelectedSlotNo(SlotNo);
-        };
+    // {
+    //   field: "select",
+    //   headerName: "Select",
+    //   width: 90,
+    //   renderCell: (params) => {
+    //     const handleRowClick = (SlotNo) => {
+    //       setSelectedSlotNo(SlotNo);
+    //     };
 
-        return (
-          <button
-            className="userListEdit"
-            onClick={() => handleRowClick(params.row.SlotNo)}
-          >
-            상세보기
-          </button>
-        );
-      },
-    },
+    //     return (
+    //       <button
+    //         className="userListEdit"
+    //         onClick={() => handleRowClick(params.row.SlotNo)}
+    //       >
+    //         상세보기
+    //       </button>
+    //     );
+    //   },
+    // },
     {
       field: "summary",
-      headerName: "summary",
+      headerName: "데이터 저장",
       width: 100,
       renderCell: (params) => {
         return (
           <>
             <Link to={"/summary/"}>
-              <button className="userListEdit">summary</button>
+              <button className="userListEdit">csv 저장</button>
             </Link>
           </>
         );
@@ -160,20 +193,6 @@ export default function LotWafer({
         })
       : dbData;
 
-  // ScanTime 및 SaveDate에 따른 필터링
-  function parseScanTime(scanTime) {
-    if (!scanTime) {
-      return null; // 또는 다른 기본값으로 대체
-    }
-
-    const [datePart, timePart] = scanTime.split(" ");
-    const [month, day, year] = datePart.split("-");
-    const [hour, minute, second] = timePart.split(":");
-    const formattedTime = `20${year}-${month}-${day}T${hour}:${minute}:${second}`;
-
-    return new Date(formattedTime);
-  }
-
   const filteredByDateRange =
     dateType === "saveDate"
       ? filteredData.filter((item) => {
@@ -184,7 +203,7 @@ export default function LotWafer({
         })
       : dateType === "scanDate"
       ? filteredData.filter((item) => {
-          const scanTime = parseScanTime(item.ScanTime);
+          const scanTime = new Date(item.ScanTime);
 
           const scanTimeDate = new Date(scanTime);
           const startDateDate = new Date(startDate);
@@ -218,7 +237,9 @@ export default function LotWafer({
           return itemDate >= startOfDay && itemDate < endOfDay;
         });
 
-  //console.log(filteredByDateRange);
+  const handleCellClick = (params) => {
+    setSelectedSlotNo(params.row.SlotNo);
+  };
 
   return (
     <div style={{ marginTop: "80px" }}>
@@ -228,7 +249,7 @@ export default function LotWafer({
         <DataGrid
           rows={filteredByDateRange}
           columns={columns}
-          disableSelectionOnClick
+          onCellClick={handleCellClick}
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 5 },

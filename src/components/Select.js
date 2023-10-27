@@ -4,6 +4,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"; // DateTimePicker를 사용합니다.
 //import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
@@ -26,22 +27,23 @@ const StyledSelect = styled("select")({
 
   height: "100%",
   marginTop: "10px",
+  marginRight: "5px",
 });
 
 export default function Select({ onDateSelect }) {
+  const today = dayjs();
+  const startOfDay = today.set("hour", 0).set("minute", 0);
+  const endOfDay = today.set("hour", 23).set("minute", 59);
+
   const [dateType, setDateType] = React.useState("saveDate"); // 데이터 타입
+  const [startDate, setStartDate] = React.useState(startOfDay); // 시작일
+  const [endDate, setEndDate] = React.useState(endOfDay); // 종료일
 
   const handleDateTypeChange = (event) => {
     setDateType(event.target.value);
     onDateSelect(dateType, startDate, endDate);
     console.log("데이터 타입:", event.target.value);
   };
-  const today = dayjs();
-  const startOfDay = today.startOf("day");
-  const endOfDay = today.endOf("day");
-
-  const [startDate, setStartDate] = React.useState(startOfDay); // 시작일
-  const [endDate, setEndDate] = React.useState(endOfDay); // 종료일
 
   const handleStartDateChange = (newValue) => {
     setStartDate(newValue);
@@ -75,16 +77,16 @@ export default function Select({ onDateSelect }) {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div style={containerStyle}>
           <StyledSelect value={dateType} onChange={handleDateTypeChange}>
-            <option value="saveDate">Save Date</option>
-            <option value="scanDate">Scan Date</option>
+            <option value="saveDate">데이터 저장일</option>
+            <option value="scanDate">설비 저장일</option>
           </StyledSelect>
           <DemoContainer components={["DatePicker", "DatePicker"]}>
-            <DatePicker
+            <DateTimePicker
               label="시작일"
               value={startDate}
               onChange={handleStartDateChange}
             />
-            <DatePicker
+            <DateTimePicker
               label="종료일"
               value={endDate}
               onChange={handleEndDateChange}

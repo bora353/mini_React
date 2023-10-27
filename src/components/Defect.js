@@ -2,53 +2,41 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 
-// const rows = [
-//   {
-//     id: 1,
-//     WaferNo: "01",
-//     DefectID: "123",
-//   },
-//   {
-//     id: 2,
-//     WaferNo: "def",
-//     DefectID: "456",
-//   },
-// ];
-
 export default function Defect({
   selectedSlotNo = null,
   setSelectedDefectNo = () => {},
 }) {
   const [defectData, setDefectData] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const columns = [
     { field: "DefectNo", headerName: "DefectNo", width: 100 },
     { field: "DefectId", headerName: "DefectId", width: 100 },
-    { field: "XRel", headerName: "XRel" },
-    { field: "YRel", headerName: "YRel" },
+    { field: "XRel", headerName: "XRel", width: 130 },
+    { field: "YRel", headerName: "YRel", width: 130 },
     { field: "XIndex", headerName: "XIndex" },
     { field: "YIndex", headerName: "YIndex" },
-    { field: "RoughBinNumber", headerName: "RoughBinNumber", width: 200 },
-    { field: "FineBinNumber", headerName: "FineBinNumber", width: 200 },
-    {
-      field: "select",
-      headerName: "Select",
-      width: 90,
-      renderCell: (params) => {
-        const handleRowClick = (DefectNo) => {
-          setSelectedDefectNo(DefectNo);
-        };
+    { field: "RoughBinNumber", headerName: "RoughBinNumber", width: 160 },
+    { field: "FineBinNumber", headerName: "FineBinNumber", width: 160 },
+    // {
+    //   field: "select",
+    //   headerName: "Select",
+    //   width: 90,
+    //   renderCell: (params) => {
+    //     const handleRowClick = (DefectNo) => {
+    //       setSelectedDefectNo(DefectNo);
+    //     };
 
-        return (
-          <button
-            className="userListEdit"
-            onClick={() => handleRowClick(params.row.DefectNo)}
-          >
-            상세보기
-          </button>
-        );
-      },
-    },
+    //     return (
+    //       <button
+    //         className="userListEdit"
+    //         onClick={() => handleRowClick(params.row.DefectNo)}
+    //       >
+    //         버튼없애기
+    //       </button>
+    //     );
+    //   },
+    // },
   ];
 
   useEffect(() => {
@@ -67,6 +55,20 @@ export default function Defect({
     ? defectData.filter((row) => row.SlotNo === selectedSlotNo)
     : [];
 
+  const handleCellClick = (params) => {
+    if (selectedRows.includes(params.row.DefectNo)) {
+      // setSelectedRows((prevSelected) =>
+      //   prevSelected.filter((defectNo) => defectNo !== params.row.DefectNo)
+      // );
+      //setSelectedDefectNo(null); // 선택 해제
+      console.log("DefectNo deselected:", params.row.DefectNo); // 선택 해제 시 로그
+    } else {
+      // setSelectedRows((prevSelected) => [params.row.DefectNo]);
+      setSelectedDefectNo(params.row.DefectNo); // 선택
+      console.log("DefectNo selected:", params.row.DefectNo); // 선택 시 로그
+    }
+  };
+
   return (
     <div>
       <div style={{ marginTop: "50px" }}>
@@ -76,7 +78,12 @@ export default function Defect({
           <DataGrid
             rows={filteredRows}
             columns={columns}
-            disableSelectionOnClick
+            //checkboxSelection
+            onCellClick={handleCellClick}
+            //selectionModel={selectedRows}
+            // onSelectionModelChange={(newSelection) => {
+            //   setSelectedRows(newSelection);
+            // }}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 10 },

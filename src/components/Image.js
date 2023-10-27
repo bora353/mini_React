@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import axios from "axios";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 
 export default function Image({
   selectedSlotNo,
@@ -10,7 +14,40 @@ export default function Image({
   setSelectedDefectNo,
 }) {
   const [imageData, setImageData] = useState([]);
+  const [defectIdMap, setDefectIdMap] = useState({});
+  const [isModalOpen, setModalOpen] = useState(false); // 모달(이미지 팝업)
+  const [selectedImage, setSelectedImage] = useState(null); // 선택된 이미지 정보를 저장
 
+  // 모달 열기 함수
+  const openModal = (imageInfo) => {
+    setSelectedImage(imageInfo); // 선택된 이미지 정보 설정
+    setModalOpen(true);
+  };
+
+  // 모달 닫기 함수
+  const closeModal = () => {
+    setSelectedImage(null); // 모달이 닫힐 때 이미지 정보 초기화
+    setModalOpen(false);
+  };
+
+  // Defect 데이터 가져오기
+  useEffect(() => {
+    axios
+      .get("/parsing")
+      .then((response) => {
+        const defectData = response.data.Defects;
+        const defectIdMap = {};
+        defectData.forEach((defect) => {
+          defectIdMap[defect.DefectNo] = defect.DefectId;
+        });
+        setDefectIdMap(defectIdMap);
+      })
+      .catch((error) => {
+        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+      });
+  }, []);
+
+  // Image 데이터 가져오기
   useEffect(() => {
     axios
       .get("/parsing")
@@ -74,18 +111,47 @@ export default function Image({
           cols={5}
           rowHeight={250}
         >
-          {imageData.map((item) => (
-            <ImageListItem key={item.img} sx={{ margin: "0 0 45px 0" }}>
-              <img
-                srcSet={`\\img\\${item.TiffFileName}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                src={`\\img\\${item.TiffFileName}?w=164&h=164&fit=crop&auto=format`}
-                alt={item.ImgNo}
-                loading="lazy"
-              />
-            </ImageListItem>
-          ))}
+          {imageData.map((item) => {
+            const fileName = item.TiffFileName.split("\\").pop();
+            const defectId = defectIdMap[item.DefectNo] || "N/A";
+
+            return (
+              <ImageListItem key={item.img} sx={{ margin: "0 0 70px 0" }}>
+                <div
+                  style={{
+                    textAlign: "center",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                  }}
+                >
+                  DefectId : {defectId}, [ {fileName} ]
+                </div>
+                <img
+                  srcSet={`\\img\\${item.TiffFileName}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                  src={`\\img\\${item.TiffFileName}?w=164&h=164&fit=crop&auto=format`}
+                  alt={item.ImgNo}
+                  loading="lazy"
+                  onClick={() => {
+                    openModal(item.TiffFileName);
+                  }}
+                />
+              </ImageListItem>
+            );
+          })}
         </ImageList>
       </div>
+
+      <Dialog open={isModalOpen} onClose={closeModal}>
+        <DialogContent>
+          {selectedImage && (
+            <img
+              src={`\\img\\${selectedImage}?w=600`}
+              alt="Selected Image"
+              onClick={closeModal}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

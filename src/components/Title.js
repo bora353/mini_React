@@ -13,7 +13,7 @@ export default function Title() {
   let title;
   switch (location.pathname) {
     case "/integrateddata":
-      title = "통합데이터";
+      title = "통합시스템";
       break;
     case "/filecheck":
       title = "File Data";

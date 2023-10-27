@@ -43,9 +43,9 @@ export default function DataSearchPage() {
       <Title />
       <div style={flexContainerStyle}>
         <Select onDateSelect={handleDateSelect} />
-        <div style={searchallStyle}>
+        {/* <div style={searchallStyle}>
           <Searchall onSearch={handleSearch} />
-        </div>
+        </div> */}
       </div>
       <LotWafer
         searchQuery={searchQuery}
