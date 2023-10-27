@@ -23,7 +23,7 @@ const StyledSelect = styled("select")({
   border: "1px solid #ccc",
   borderRadius: "4px",
   padding: "5px",
-  marginRight: "10px",
+
   height: "100%",
   marginTop: "10px",
 });
@@ -57,7 +57,7 @@ export default function Select({ onDateSelect }) {
 
   React.useEffect(() => {
     onDateSelect(dateType, startDate, endDate);
-  }, [dateType, startDate, endDate]);
+  }, [dateType, startDate, endDate, onDateSelect]);
 
   // 선택 날짜 전달하기
   // const handleSearchClick = () => {

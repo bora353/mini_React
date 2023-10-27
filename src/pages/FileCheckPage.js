@@ -23,10 +23,10 @@ export default function FileCheckPage() {
       <Bar />
       <Title />
       <div style={flexContainerStyle}>
-        <Select />
+        {/* <Select />
         <div style={searchallStyle}>
           <Searchall />
-        </div>
+        </div> */}
       </div>
       <File />
     </div>

@@ -129,17 +129,13 @@ export default function LotWafer({
     },
   ];
 
-  // 검색해서 데이터 필터링
+  //검색해서 데이터 필터링
   const filteredData =
     searchOption === "LotID"
       ? dbData.filter((item) => item.LotId.includes(searchQuery))
       : searchOption === "WaferID" // searchOption가 LotID가 아니고 WaferID 인가?
       ? dbData.filter((item) => item.WaferNo === searchQuery)
       : dbData;
-
-  console.log("Lot Wafer dateType:", dateType);
-  console.log("startDate:", startDate);
-  console.log("endDate:", endDate);
 
   // ScanTime 및 SaveDate에 따른 필터링
   function parseScanTime(scanTime) {
@@ -158,24 +154,10 @@ export default function LotWafer({
   const filteredByDateRange =
     dateType === "saveDate"
       ? filteredData.filter((item) => {
-          const today = new Date();
-          const startOfDay = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate()
-          );
-          const endOfDay = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate() + 1
-          );
           const itemDate = new Date(item.SaveDate);
-
-          console.log("여긴 saveDate일때");
-          console.log(itemDate);
-          console.log(startOfDay);
-          console.log(endOfDay);
-          return itemDate >= startOfDay && itemDate < endOfDay;
+          const startDateDate = new Date(startDate);
+          const endDateDate = new Date(endDate);
+          return itemDate >= startDateDate && itemDate <= endDateDate;
         })
       : dateType === "scanDate"
       ? filteredData.filter((item) => {
@@ -192,7 +174,26 @@ export default function LotWafer({
 
           return scanTimeDate >= startDateDate && scanTimeDate <= endDateDate;
         })
-      : filteredData;
+      : filteredData.filter((item) => {
+          const today = new Date();
+          const startOfDay = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate()
+          );
+          const endOfDay = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate() + 1
+          );
+          const itemDate = new Date(item.SaveDate);
+
+          console.log("여긴 saveDate이고 날짜 미선택시 default");
+          console.log(itemDate);
+          console.log(startOfDay);
+          console.log(endOfDay);
+          return itemDate >= startOfDay && itemDate < endOfDay;
+        });
 
   //console.log(filteredByDateRange);
 
