@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@mui/material/Button";
 import { styled, alpha } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
@@ -56,7 +56,6 @@ const StyledSelect = styled("select")({
   padding: "5px",
   marginRight: "10px",
   height: "35px",
-  //marginTop: "10px",
 });
 
 export default function Searchall({ onSearch }) {
@@ -78,6 +77,10 @@ export default function Searchall({ onSearch }) {
     // 검색 로직을 수행
     onSearch(searchValue, selectedOption);
   };
+
+  useEffect(() => {
+    onSearch(searchValue, selectedOption);
+  }, [selectedOption]);
 
   return (
     <div>

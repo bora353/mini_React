@@ -130,11 +130,34 @@ export default function LotWafer({
   ];
 
   //검색해서 데이터 필터링
+  // const filteredData =
+  //   searchOption === "LotID"
+  //     ? dbData.filter((item) => {
+  //         const result = item.LotId.includes(searchQuery);
+  //         console.log("LotID 일때 체크", searchQuery, result);
+  //         return result;
+  //       })
+  //     : searchOption === "WaferID"
+  //     ? dbData.filter((item) => {
+  //         const result = item.WaferNo === searchQuery;
+  //         console.log("WaferID 일때 체크", searchQuery, result);
+  //         return result;
+  //       })
+  //     : dbData;
+
   const filteredData =
-    searchOption === "LotID"
-      ? dbData.filter((item) => item.LotId.includes(searchQuery))
-      : searchOption === "WaferID" // searchOption가 LotID가 아니고 WaferID 인가?
-      ? dbData.filter((item) => item.WaferNo === searchQuery)
+    searchOption === "LotID" && searchQuery
+      ? dbData.filter((item) => {
+          const result = item.LotId.includes(searchQuery);
+          console.log("LotID 일때 체크", searchQuery, result);
+          return result;
+        })
+      : searchOption === "WaferID" && searchQuery
+      ? dbData.filter((item) => {
+          const result = item.WaferNo === searchQuery;
+          console.log("WaferID 일때 체크", searchQuery, result);
+          return result;
+        })
       : dbData;
 
   // ScanTime 및 SaveDate에 따른 필터링
