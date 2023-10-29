@@ -10,14 +10,24 @@ export default function Defect({
   const [selectedRows, setSelectedRows] = useState([]);
 
   const columns = [
-    { field: "DefectNo", headerName: "DefectNo", width: 100 },
-    { field: "DefectId", headerName: "DefectId", width: 100 },
-    { field: "XRel", headerName: "XRel", width: 130 },
-    { field: "YRel", headerName: "YRel", width: 130 },
-    { field: "XIndex", headerName: "XIndex" },
-    { field: "YIndex", headerName: "YIndex" },
-    { field: "RoughBinNumber", headerName: "RoughBinNumber", width: 160 },
-    { field: "FineBinNumber", headerName: "FineBinNumber", width: 160 },
+    { field: "DefectNo", headerName: "DefectNo", width: 100, align: "center" },
+    { field: "DefectId", headerName: "DefectId", width: 100, align: "center" },
+    { field: "XRel", headerName: "XRel", width: 130, align: "center" },
+    { field: "YRel", headerName: "YRel", width: 130, align: "center" },
+    { field: "XIndex", headerName: "XIndex", align: "center" },
+    { field: "YIndex", headerName: "YIndex", align: "center" },
+    {
+      field: "RoughBinNumber",
+      headerName: "RoughBinNumber",
+      width: 160,
+      align: "center",
+    },
+    {
+      field: "FineBinNumber",
+      headerName: "FineBinNumber",
+      width: 160,
+      align: "center",
+    },
     // {
     //   field: "select",
     //   headerName: "Select",

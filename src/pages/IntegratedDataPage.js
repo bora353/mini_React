@@ -17,7 +17,8 @@ export default function IntegratedDataPage() {
     <div>
       <Bar />
       <Title />
-      {/* <Searchall onSearch={handleSearch} /> */}
+      <p>라인이랑 레시피 각각 dropdown으로 선택하게하자</p>
+      <Searchall onSearch={handleSearch} />
       <IntegratedTable />
     </div>
   );

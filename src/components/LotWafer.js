@@ -65,16 +65,17 @@ export default function LotWafer({
         );
       },
     },
-    { field: "LotNo", headerName: "LotNo", width: 50 },
-    { field: "SlotNo", headerName: "SlotNo(지워)", width: 50 },
-    { field: "LotId", headerName: "LotID", width: 100 },
-    { field: "WaferNo", headerName: "WaferID", width: 70 },
-    { field: "LineId", headerName: "LineId", width: 70 },
+    { field: "LotNo", headerName: "LotNo", width: 50, align: "center" },
+    { field: "SlotNo", headerName: "SlotNo(지워)", width: 50, align: "center" },
+    { field: "LotId", headerName: "LotID", width: 100, align: "center" },
+    { field: "WaferNo", headerName: "WaferID", width: 70, align: "center" },
+    { field: "LineId", headerName: "LineId", width: 70, align: "center" },
     {
       field: "DeviceId",
       headerName: "DeviceID",
       type: "number",
       width: 100,
+      align: "center",
     },
     {
       field: "StepId",
@@ -82,13 +83,15 @@ export default function LotWafer({
       //description: "This column has a value getter and is not sortable.",
       sortable: false,
       width: 170,
+      align: "center",
     },
-    { field: "EquipID", headerName: "EquipID", width: 100 },
-    { field: "PpID", headerName: "PpID", width: 130 },
+    { field: "EquipID", headerName: "EquipID", width: 100, align: "center" },
+    { field: "PpID", headerName: "PpID", width: 130, align: "center" },
     {
       field: "ScanTime",
       headerName: "ScanTime",
       width: 200,
+      align: "center",
       valueGetter: (params) => {
         return new Date(params.row.ScanTime);
       },
@@ -112,6 +115,7 @@ export default function LotWafer({
       field: "SaveDate",
       headerName: "SaveDate",
       width: 200,
+      align: "center",
       valueGetter: (params) => {
         return new Date(params.row.SaveDate);
       },
@@ -128,20 +132,37 @@ export default function LotWafer({
         return formattedDate;
       },
     },
-    { field: "SlotId", headerName: "SlotNo", width: 70 },
-    { field: "SampleSize", headerName: "SampleSize", width: 100 },
+    { field: "SlotId", headerName: "SlotNo", width: 70, align: "center" },
+    {
+      field: "SampleSize",
+      headerName: "SampleSize",
+      width: 100,
+      align: "center",
+    },
     {
       field: "SampleCenterLocationX",
       headerName: "SampleCenterLocationX",
       width: 200,
+      align: "center",
     },
     {
       field: "SampleCenterLocationY",
       headerName: "SampleCenterLocationY",
       width: 200,
+      align: "center",
     },
-    { field: "DiePitchX", headerName: "DiePitchX", width: 150 },
-    { field: "DiePitchY", headerName: "DiePitchY", width: 150 },
+    {
+      field: "DiePitchX",
+      headerName: "DiePitchX",
+      width: 150,
+      align: "center",
+    },
+    {
+      field: "DiePitchY",
+      headerName: "DiePitchY",
+      width: 150,
+      align: "center",
+    },
     // {
     //   field: "select",
     //   headerName: "Select",
