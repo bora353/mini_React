@@ -19,7 +19,7 @@ export default function Title() {
       title = "File Data";
       break;
     case "/summary":
-      title = "Summary";
+      title = "csv 파일 전송";
       break;
     default:
       title = "데이터 조회";

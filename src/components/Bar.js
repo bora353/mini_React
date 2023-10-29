@@ -46,7 +46,7 @@ export default function Bar() {
                   // sx={{ mx: 1, color: "inherit" }}
                   sx={{
                     mx: 1,
-                    color: page.title === "통합시스템" ? "#FF5733" : "inherit",
+                    color: page.title === "통합시스템" ? "#0a0a5c" : "inherit",
                     fontWeight: page.title === "통합시스템" ? 700 : "inherit",
                   }}
                 >

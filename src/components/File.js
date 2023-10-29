@@ -57,12 +57,12 @@ export default function File() {
             disableSelectionOnClick
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
             }}
             pageSizeOptions={[5, 10]}
             getRowId={(row) => row.FileId}
-            sx={{ margin: "0 200px" }}
+            sx={{ height: 600, margin: "0 200px" }}
           />
         </div>
       </div>

@@ -4,6 +4,7 @@ import Defect from "./Defect";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Image from "../components/Image";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
 export default function LotWafer({
   searchQuery,
@@ -50,6 +51,20 @@ export default function LotWafer({
   }, []);
 
   const columns = [
+    {
+      field: "summary",
+      headerName: "데이터 저장 <SaveAltIcon />",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/summary/"}>
+              <button className="userListEdit">csv 저장</button>
+            </Link>
+          </>
+        );
+      },
+    },
     { field: "LotNo", headerName: "LotNo", width: 50 },
     { field: "SlotNo", headerName: "SlotNo(지워)", width: 50 },
     { field: "LotId", headerName: "LotID", width: 100 },
@@ -146,20 +161,6 @@ export default function LotWafer({
     //     );
     //   },
     // },
-    {
-      field: "summary",
-      headerName: "데이터 저장",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/summary/"}>
-              <button className="userListEdit">csv 저장</button>
-            </Link>
-          </>
-        );
-      },
-    },
   ];
 
   //검색해서 데이터 필터링

@@ -3,7 +3,6 @@ import Bar from "../components/Bar";
 import Select from "../components/Select";
 import Title from "../components/Title";
 import LotWafer from "../components/LotWafer";
-import Searchall from "../components/Searchall";
 
 const searchallStyle = {
   marginLeft: "150px",

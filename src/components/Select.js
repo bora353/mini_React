@@ -24,6 +24,7 @@ const StyledSelect = styled("select")({
   border: "1px solid #ccc",
   borderRadius: "4px",
   padding: "5px",
+  width: "120px",
 
   height: "100%",
   marginTop: "10px",

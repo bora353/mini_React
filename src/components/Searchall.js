@@ -88,17 +88,17 @@ export default function Searchall({ onSearch }) {
         <StyledSelect
           value={selectedOption}
           onChange={handleOptionChange}
-          autoWidth
+          style={{ width: "100px" }}
         >
-          <option value="LotID">LotID</option>
-          <option value="WaferID">WaferID</option>
+          <option value="Line">Line</option>
+          <option value="RecipeId">Recipe</option>
         </StyledSelect>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
-            placeholder="입력하시오"
+            placeholder="입력하세요"
             inputProps={{ "aria-label": "search" }}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
