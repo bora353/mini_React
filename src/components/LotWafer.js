@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Image from "../components/Image";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import { Button } from "@mui/material";
 
 export default function LotWafer({
   searchQuery,
@@ -50,26 +51,83 @@ export default function LotWafer({
       });
   }, []);
 
+  const CustomButton = ({ rowData }) => {
+    const handleDownload = () => {
+      const confirmResult = window.confirm("csv 파일을 생성하시겠습니까?");
+
+      if (confirmResult) {
+        window.location.href = `/summary?LotId=${rowData.LotId}&WaferId=${rowData.WaferNo}`;
+      }
+    };
+
+    return (
+      <Button onClick={handleDownload}>
+        <span className="userListEdit">
+          csv <SaveAltIcon fontSize="small" />
+        </span>
+      </Button>
+    );
+  };
+
   const columns = [
     {
       field: "summary",
-      headerName: "데이터 저장 <SaveAltIcon />",
+      headerName: "데이터 저장",
       width: 100,
+      // renderCell: (params) => {
+      //   return (
+      //     <>
+      //       <Link
+      //         to={`/summary?LotId=${params.row.LotId}&WaferId=${params.row.WaferNo}`}
+      //       >
+      //         <button
+      //         //className="userListEdit"
+      //         >
+      //           csv <SaveAltIcon fontSize="small" />
+      //         </button>
+      //       </Link>
+      //     </>
+      //   );
+      // },
       renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/summary/"}>
-              <button className="userListEdit">csv 저장</button>
-            </Link>
-          </>
-        );
+        return <CustomButton rowData={params.row} />;
       },
     },
-    { field: "LotNo", headerName: "LotNo", width: 50, align: "center" },
-    { field: "SlotNo", headerName: "SlotNo(지워)", width: 50, align: "center" },
-    { field: "LotId", headerName: "LotID", width: 100, align: "center" },
-    { field: "WaferNo", headerName: "WaferID", width: 70, align: "center" },
-    { field: "LineId", headerName: "LineId", width: 70, align: "center" },
+    {
+      field: "LotNo",
+      headerName: "LotNo",
+      width: 70,
+      align: "center",
+      headerAlign: "center",
+    },
+    // {
+    //   field: "SlotNo",
+    //   headerName: "SlotNo(지워)",
+    //   width: 70,
+    //   align: "center",
+    //   headerAlign: "center",
+    // },
+    {
+      field: "LotId",
+      headerName: "LotID",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "WaferNo",
+      headerName: "WaferID",
+      width: 70,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "LineId",
+      headerName: "LineId",
+      width: 70,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "DeviceId",
       headerName: "DeviceID",
@@ -84,14 +142,28 @@ export default function LotWafer({
       sortable: false,
       width: 170,
       align: "center",
+      headerAlign: "center",
     },
-    { field: "EquipID", headerName: "EquipID", width: 100, align: "center" },
-    { field: "PpID", headerName: "PpID", width: 130, align: "center" },
+    {
+      field: "EquipID",
+      headerName: "EquipID",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "PpID",
+      headerName: "PpID",
+      width: 170,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "ScanTime",
       headerName: "ScanTime",
       width: 200,
       align: "center",
+      headerAlign: "center",
       valueGetter: (params) => {
         return new Date(params.row.ScanTime);
       },
@@ -116,6 +188,7 @@ export default function LotWafer({
       headerName: "SaveDate",
       width: 200,
       align: "center",
+      headerAlign: "center",
       valueGetter: (params) => {
         return new Date(params.row.SaveDate);
       },
@@ -138,30 +211,35 @@ export default function LotWafer({
       headerName: "SampleSize",
       width: 100,
       align: "center",
+      headerAlign: "center",
     },
     {
       field: "SampleCenterLocationX",
       headerName: "SampleCenterLocationX",
       width: 200,
       align: "center",
+      headerAlign: "center",
     },
     {
       field: "SampleCenterLocationY",
       headerName: "SampleCenterLocationY",
       width: 200,
       align: "center",
+      headerAlign: "center",
     },
     {
       field: "DiePitchX",
       headerName: "DiePitchX",
       width: 150,
       align: "center",
+      headerAlign: "center",
     },
     {
       field: "DiePitchY",
       headerName: "DiePitchY",
       width: 150,
       align: "center",
+      headerAlign: "center",
     },
     // {
     //   field: "select",

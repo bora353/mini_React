@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
 import Typography from "@mui/material/Typography";
-
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import axios from "axios";
 
 const StyledSelect = styled("select")({
   border: "1px solid #ccc",
@@ -36,8 +35,10 @@ const FileNameHeading = styled(Typography)({
   marginBottom: "10px",
 });
 
-export default function FTP() {
+export default function FTP({ LotId, WaferId }) {
   const [open, setOpen] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const [selectedOption, setSelectedOption] = useState("ABC");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,6 +46,42 @@ export default function FTP() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    return now.toISOString();
+  };
+
+  const currentDateTime = getCurrentDateTime();
+
+  useEffect(() => {
+    const getCurrentDateTime = () => {
+      const now = new Date();
+      return now.toISOString();
+    };
+
+    const currentDateTime = getCurrentDateTime();
+    const initialFileName = `${LotId}_${WaferId}_${currentDateTime}`;
+    const sanitizedFileName = initialFileName.replace(/:/g, "");
+    setFileName(sanitizedFileName);
+  }, [LotId, WaferId]); // LotId 또는 WaferId가 변경될 때만 업데이트
+
+  const handleFileUpload = () => {
+    const data = {
+      fileName: fileName,
+      selectedOption: selectedOption, // 선택한 옵션을 추가
+    };
+
+    axios
+      .post("/csv", data) // POST 요청으로 변경
+      .then((response) => {
+        console.log("파일명 및 선택한 옵션 전달 성공", response);
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("파일명 및 선택한 옵션 전달 실패", error);
+      });
   };
 
   return (
@@ -60,11 +97,11 @@ export default function FTP() {
           style={{
             border: "1px solid #ccc",
             padding: "10px",
-            width: "500px",
+            width: "400px",
             borderRadius: "5px",
           }}
         >
-          LotId_WaferId_시간으로 파일명.csv
+          {fileName}.csv
         </Typography>
 
         <FileNameHeading style={{ marginTop: "100px" }}>
@@ -72,12 +109,12 @@ export default function FTP() {
         </FileNameHeading>
         <HorizontalContainer>
           <StyledSelect
-            //value={selectedOption}
-            //onChange={handleOptionChange}
             style={{ width: "120px" }}
+            value={selectedOption}
+            onChange={(e) => setSelectedOption(e.target.value)}
           >
-            <option value="A">A폴더</option>
-            <option value="B">B폴더</option>
+            <option value="ABC">ABC폴더</option>
+            <option value="DEF">DEF폴더</option>
           </StyledSelect>
           <Button variant="contained" onClick={handleClickOpen}>
             <DriveFileMoveIcon />
@@ -88,9 +125,12 @@ export default function FTP() {
 
       <Dialog open={open} onClose={handleClose}>
         {/* <DialogTitle>파일 전송</DialogTitle> */}
-        <DialogContent>파일 전송이 완료되었습니다.</DialogContent>
+        <DialogContent>파일 전송하시겠습니까?</DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="error">
+            취소
+          </Button>
+          <Button onClick={handleFileUpload} color="primary">
             확인
           </Button>
         </DialogActions>

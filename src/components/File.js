@@ -3,34 +3,36 @@ import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 
 const columns = [
-  { field: "FileId", headerName: "ID", width: 100 },
-  { field: "FileName", headerName: "File Name", width: 250 },
+  {
+    field: "FileId",
+    headerName: "ID",
+    width: 100,
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "FileName",
+    headerName: "File Name",
+    width: 220,
+    align: "center",
+    headerAlign: "center",
+  },
   {
     field: "FileTime",
-    headerName: "File Time",
+    headerName: "Save Time",
     width: 300,
+    align: "center",
+    headerAlign: "center",
   },
   {
     field: "Success",
     headerName: "Success",
     width: 150,
+    align: "center",
+    headerAlign: "center",
+    valueGetter: (params) => (params.value === 0 ? "성공" : "실패"),
   },
 ];
-
-// const rows = [
-//   {
-//     id: 1,
-//     fileName: "abc",
-//     filetime: "123",
-//     success: "성공",
-//   },
-//   {
-//     id: 2,
-//     fileName: "def",
-//     filetime: "456",
-//     success: "실패",
-//   },
-// ];
 
 export default function File() {
   const [dbData, setDbData] = useState([]);

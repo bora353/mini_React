@@ -21,6 +21,9 @@ export default function Title() {
     case "/summary":
       title = "csv 파일 전송";
       break;
+    case "/integrateddata/rms":
+      title = "통합시스템";
+      break;
     default:
       title = "데이터 조회";
   }

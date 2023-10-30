@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,82 +7,81 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
+import "../App.css";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
-  { id: "LotId", label: "LotId", minWidth: 50, align: "center" },
-  { id: "LineId", label: "LineId", minWidth: 50, align: "center" },
+  { id: "LotId", label: "LotId", minWidth: 20, align: "center" },
+  { id: "LineId", label: "Line(DM)", minWidth: 20, align: "center" },
   {
     id: "StepId",
     label: "StepId",
-    minWidth: 50,
+    minWidth: 20,
     align: "center",
   },
   {
     id: "DeviceId",
     label: "DeviceId",
-    minWidth: 50,
+    minWidth: 20,
     align: "center",
   },
   {
     id: "EquipId",
     label: "EquipId",
-    minWidth: 50,
+    minWidth: 20,
     align: "center",
   },
   {
     id: "RecipeId",
     label: "RecipeId",
-    minWidth: 50,
+    minWidth: 20,
     align: "center",
   },
   {
-    id: "LineId",
-    label: "LineId",
-    minWidth: 50,
+    id: "line",
+    label: "Line(RMS)",
+    minWidth: 20,
     align: "center",
   },
   {
-    id: "StepId",
+    id: "step_id",
     label: "StepId",
-    minWidth: 50,
+    minWidth: 20,
     align: "center",
   },
   {
-    id: "EquipId",
+    id: "equip_id",
     label: "EquipId",
-    minWidth: 50,
+    minWidth: 20,
     align: "center",
   },
   {
-    id: "RecipeId",
+    id: "recipe_id",
     label: "RecipeId",
-    minWidth: 50,
+    minWidth: 20,
     align: "center",
-  },
-];
-
-const rows = [
-  {
-    LotId: 1,
-    LineId: "Snow",
-    StepId: "Jon",
-    DeviceId: 35,
-    EquipId: 55,
-    RecipeId: 55,
-    LineId: 33,
-    StepId: 33,
-    EquipId: 11,
-    RecipeId: 4,
   },
 ];
 
 const tableContainerStyle = {
-  margin: "70px 50px 0 50px",
+  margin: "70px 200px 0 200px",
 };
 
-export default function IntegratedTable() {
+export default function IntegratedTable({
+  selectedLine,
+  selectedRecipe,
+  integratedData,
+  setIntegratedData,
+}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [filteredData, setFilteredData] = useState([]); // 필터링된 데이터를 저장
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  //const [integratedData, setIntegratedData] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -91,6 +90,75 @@ export default function IntegratedTable() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  useEffect(() => {
+    axios
+      .get("/integrated")
+      .then((response) => {
+        const rows = response.data.map((item) => ({
+          id: item.Lot._id,
+          LotId: item.Lot.LotId,
+          LineId: item.Lot.LineId,
+          StepId: item.Lot.StepId,
+          DeviceId: item.Lot.DeviceId,
+          EquipId: item.Lot.EquipId,
+          RecipeId: item.Lot.RecipeId,
+          line: item.StandardInfo.line,
+          step_id: item.StandardInfo.step_id,
+          equip_id: item.StandardInfo.equip_id,
+          recipe_id: item.StandardInfo.recipe_id,
+        }));
+
+        setIntegratedData(rows); // 데이터를 상태에 저장
+      })
+      .catch((error) => {
+        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+      });
+  }, [setIntegratedData]);
+
+  // 필터링 함수
+  const filterData = () => {
+    let filtered = integratedData;
+
+    // Line 필터링
+    if (selectedLine) {
+      filtered = filtered.filter((row) => row["LineId"] === selectedLine);
+    }
+
+    // 레시피 필터링
+    if (selectedRecipe) {
+      filtered = filtered.filter((row) => row["recipe_id"] === selectedRecipe);
+    }
+
+    setFilteredData(filtered);
+  };
+
+  useEffect(() => {
+    filterData(); // selectedLine이 변경될 때마다 필터링 함수 실행
+  }, [selectedLine, selectedRecipe, integratedData]);
+
+  const handleRowClick = (row) => {
+    const selectedIndex = selectedRows.indexOf(row);
+    let newSelected = [...selectedRows];
+
+    if (selectedIndex === -1) {
+      // 선택되지 않은 행을 선택
+      newSelected.push(row);
+    } else {
+      // 이미 선택된 행을 선택 해제
+      newSelected.splice(selectedIndex, 1);
+    }
+
+    setSelectedRows(newSelected);
+    console.log(newSelected);
+  };
+
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    // 원하는 경로로 이동
+    navigate("/integrateddata/rms");
   };
 
   return (
@@ -103,16 +171,29 @@ export default function IntegratedTable() {
                 <TableCell
                   align="center"
                   colSpan={6}
-                  style={{ borderRight: "1px solid #e0e0e0" }}
+                  style={{
+                    borderRight: "2px solid #e0e0e0",
+                    borderTop: "2px solid #e0e0e0",
+                    borderBottom: "2px solid #e0e0e0",
+                    borderLeft: "2px solid #e0e0e0",
+                  }}
                 >
-                  DM
+                  <Typography variant="h6" fontWeight="bold">
+                    DM
+                  </Typography>
                 </TableCell>
                 <TableCell
                   align="center"
                   colSpan={4}
-                  style={{ borderRight: "1px solid #e0e0e0" }}
+                  style={{
+                    borderRight: "2px solid #e0e0e0",
+                    borderTop: "2px solid #e0e0e0",
+                    borderBottom: "2px solid #e0e0e0",
+                  }}
                 >
-                  RMS
+                  <Typography variant="h6" fontWeight="bold">
+                    RMS
+                  </Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -124,10 +205,8 @@ export default function IntegratedTable() {
                     style={{
                       top: 57,
                       minWidth: column.minWidth,
-                      //borderRight: "1px solid #e0e0e0", // Vertical border
-                      minWidth: column.minWidth,
-                      //borderTop: "1px solid #e0e0e0", // Horizontal border
-                      //borderBottom: "1px solid #e0e0e0", // Horizontal border
+                      //borderRight: "2px solid #e0e0e0",
+                      fontWeight: "bold",
                     }}
                   >
                     {column.label}
@@ -136,15 +215,19 @@ export default function IntegratedTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredData // rows 대신 integratedData를 사용
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row, index) => {
                   return (
                     <TableRow
                       hover
                       role="checkbox"
                       tabIndex={-1}
-                      key={row.code}
+                      key={index}
+                      className={
+                        selectedRows.includes(row) ? "selected-row" : ""
+                      }
+                      onClick={() => handleRowClick(row)} // 클릭 이벤트 추가
                     >
                       {columns.map((column) => {
                         const value = row[column.id];
@@ -153,7 +236,7 @@ export default function IntegratedTable() {
                             key={column.id}
                             align={column.align}
                             style={{
-                              //borderRight: "1px solid #e0e0e0", // You can adjust the border style and color as needed
+                              //borderRight: "1px solid #e0e0e0",
                               minWidth: column.minWidth,
                             }}
                           >
@@ -172,13 +255,16 @@ export default function IntegratedTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={filteredData.length} // rows.length 대신 integratedData.length 사용
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <Button variant="contained" onClick={handleButtonClick}>
+        조회하기
+      </Button>{" "}
     </div>
   );
 }

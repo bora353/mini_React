@@ -1,3 +1,7 @@
+.selected-row {
+  background-color: #b8dff8;
+}
+
 .modal-container {
   display: flex;
   justify-content: center;

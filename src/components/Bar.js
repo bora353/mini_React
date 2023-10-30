@@ -14,7 +14,7 @@ import IntegratedDataPage from "../pages/IntegratedDataPage";
 const pages = [
   { title: "통합시스템", path: "/integrateddata" },
   { title: "파일 목록", path: "/filecheck" },
-  { title: "Summary", path: "/summary" },
+  // { title: "Summary", path: "/summary" },
 ];
 
 export default function Bar() {

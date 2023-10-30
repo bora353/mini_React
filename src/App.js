@@ -6,6 +6,7 @@ import DataSearchPage from "./pages/DataSearchPage";
 import FileCheckPage from "./pages/FileCheckPage";
 import SummaryPage from "./pages/SummaryPage";
 import IntegratedDataPage from "./pages/IntegratedDataPage";
+import Rms from "./pages/Rms";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,9 +31,10 @@ function App() {
       ) : (
         <Routes>
           <Route path="*" exact element={<DataSearchPage />} />
-          <Route path="/filecheck" element={<FileCheckPage />} />
-          <Route path="/summary" element={<SummaryPage />} />
-          <Route path="/integrateddata" element={<IntegratedDataPage />} />
+          <Route path="/filecheck/*" element={<FileCheckPage />} />
+          <Route path="/summary/*" element={<SummaryPage />} />
+          <Route path="/integrateddata/" element={<IntegratedDataPage />} />
+          <Route path="/integrateddata/rms" element={<Rms />} />
         </Routes>
       )}
     </Router>
