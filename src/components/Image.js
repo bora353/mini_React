@@ -50,26 +50,28 @@ export default function Image({
   // Image 데이터 가져오기
   useEffect(() => {
     axios
-      .get("/parsing")
+      .get("/parsing/image")
 
       .then((response) => {
-        console.log(selectedSlotNo);
-        console.log(selectedDefectNo);
-        const images = response.data.Images;
+        console.log("selectedSlotNo", selectedSlotNo);
+        console.log("selectedDefectNo", selectedDefectNo);
+        const images = response.data;
+        console.log(images);
         let filteredImages = images;
 
         if (selectedSlotNo) {
           filteredImages = filteredImages.filter(
-            (item) => item.SlotNo === selectedSlotNo
+            (item) => item.slotNo === selectedSlotNo
           );
         }
 
         if (selectedDefectNo) {
           filteredImages = filteredImages.filter(
-            (item) => item.DefectNo === selectedDefectNo
+            (item) => item.defectNo === selectedDefectNo
           );
         }
 
+        console.log(filteredImages);
         setImageData(filteredImages);
       })
       .catch((error) => {
@@ -112,8 +114,8 @@ export default function Image({
           rowHeight={250}
         >
           {imageData.map((item) => {
-            const fileName = item.TiffFileName.split("\\").pop();
-            const defectId = defectIdMap[item.DefectNo] || "N/A";
+            const fileName = item.tiffFileName.split("\\").pop();
+            const defectId = defectIdMap[item.defectNo] || "N/A";
 
             return (
               <ImageListItem key={item.img} sx={{ margin: "0 0 70px 0" }}>
@@ -127,12 +129,11 @@ export default function Image({
                   DefectId : {defectId}, [ {fileName} ]
                 </div>
                 <img
-                  srcSet={`\\img\\${item.TiffFileName}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                  src={`\\img\\${item.TiffFileName}?w=164&h=164&fit=crop&auto=format`}
+                  src={`data:image/jpeg;base64,${item.imageBytes}`}
                   alt={item.ImgNo}
                   loading="lazy"
                   onClick={() => {
-                    openModal(item.TiffFileName);
+                    openModal(item.imageBytes);
                   }}
                 />
               </ImageListItem>
@@ -145,7 +146,8 @@ export default function Image({
         <DialogContent>
           {selectedImage && (
             <img
-              src={`\\img\\${selectedImage}?w=600`}
+              src={`data:image/jpeg;base64,${selectedImage}`}
+              //src={`\\img\\${selectedImage}?w=600`}
               alt="Selected Image"
               onClick={closeModal}
             />
