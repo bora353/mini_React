@@ -13,10 +13,10 @@ export default function Title() {
   let title;
   switch (location.pathname) {
     case "/integrateddata":
-      title = "통합시스템";
+      title = "통합 데이터 조회";
       break;
     case "/filecheck":
-      title = "File Data";
+      title = "파일 목록 조회";
       break;
     case "/summary":
       title = "csv 파일 전송";

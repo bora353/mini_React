@@ -16,6 +16,7 @@ export default function LotWafer({
   startDate,
   endDate,
   dateType,
+  selectedLotID,
 }) {
   const [dbData, setDbData] = useState([]);
   const [selectedSlotNo, setSelectedSlotNo] = useState(null);
@@ -81,14 +82,14 @@ export default function LotWafer({
     // },
     {
       field: "LotId",
-      headerName: "LotID",
+      headerName: "LotId",
       width: 100,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "WaferNo",
-      headerName: "WaferID",
+      headerName: "WaferId",
       width: 70,
       align: "center",
       headerAlign: "center",
@@ -102,7 +103,7 @@ export default function LotWafer({
     },
     {
       field: "DeviceId",
-      headerName: "DeviceID",
+      headerName: "DeviceId",
       type: "number",
       width: 110,
       align: "center",
@@ -110,8 +111,7 @@ export default function LotWafer({
     },
     {
       field: "StepId",
-      headerName: "StepID",
-      //description: "This column has a value getter and is not sortable.",
+      headerName: "StepId",
       sortable: false,
       width: 170,
       align: "center",
@@ -119,14 +119,14 @@ export default function LotWafer({
     },
     {
       field: "EquipID",
-      headerName: "EquipID",
+      headerName: "EquipId",
       width: 100,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "PpID",
-      headerName: "PpID",
+      headerName: "PpId",
       width: 170,
       align: "center",
       headerAlign: "center",
@@ -312,6 +312,10 @@ export default function LotWafer({
           return itemDate >= startOfDay && itemDate < endOfDay;
         });
 
+  const filteredBySelectedLotID = selectedLotID
+    ? filteredByDateRange.filter((item) => item.LotId === selectedLotID)
+    : filteredByDateRange;
+
   const handleCellClick = (params) => {
     setSelectedSlotNo(params.row.SlotNo);
   };
@@ -322,7 +326,7 @@ export default function LotWafer({
 
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={filteredByDateRange}
+          rows={filteredBySelectedLotID}
           columns={columns}
           onCellClick={handleCellClick}
           initialState={{

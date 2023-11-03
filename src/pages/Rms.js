@@ -50,6 +50,7 @@ export default function Rms() {
         dateType={dateType}
         startDate={startDate}
         endDate={endDate}
+        selectedLotID={data[0].LotId}
       />
     </div>
   );

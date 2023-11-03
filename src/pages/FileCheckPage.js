@@ -5,10 +5,10 @@ import File from "../components/File";
 import Select from "../components/Select";
 import Searchall from "../components/Searchall";
 
-const searchallStyle = {
-  marginLeft: "150px",
-  marginBottom: "-50px",
-};
+// const searchallStyle = {
+//   marginLeft: "150px",
+//   marginBottom: "-50px",
+// };
 
 const flexContainerStyle = {
   display: "flex",

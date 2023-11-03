@@ -1,10 +1,8 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-
 import DataSearchPage from "./pages/DataSearchPage";
 import FileCheckPage from "./pages/FileCheckPage";
-import SummaryPage from "./pages/SummaryPage";
 import IntegratedDataPage from "./pages/IntegratedDataPage";
 import Rms from "./pages/Rms";
 
@@ -33,7 +31,6 @@ function App() {
           <Route path="/*" exact element={<DataSearchPage />} />
           <Route path="/dmdata/*" exact element={<DataSearchPage />} />
           <Route path="/filecheck/*" element={<FileCheckPage />} />
-          {/* <Route path="/summary/*" element={<SummaryPage />} /> */}
           <Route path="/integrateddata/" element={<IntegratedDataPage />} />
           <Route path="/integrateddata/rms" element={<Rms />} />
         </Routes>

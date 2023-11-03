@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -6,19 +7,21 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { Route, Routes, Link, Outlet } from "react-router-dom";
-import DataSearchPage from "../pages/DataSearchPage";
 import FileCheckPage from "../pages/FileCheckPage";
 import SummaryPage from "../pages/SummaryPage";
 import IntegratedDataPage from "../pages/IntegratedDataPage";
+import DataSearchPage from "../pages/DataSearchPage";
 
 const pages = [
-  { title: "통합조회", path: "/integrateddata" },
   { title: "데이터조회", path: "/dmdata" },
+  { title: "통합조회", path: "/integrateddata" },
   { title: "파일목록조회", path: "/filecheck" },
   // { title: "Summary", path: "/summary" },
 ];
 
 export default function Bar() {
+  const location = useLocation();
+
   return (
     <div>
       <AppBar position="static" sx={{ backgroundColor: "#5F85bb" }}>
@@ -30,7 +33,7 @@ export default function Bar() {
               //component={Link}
               //to="/"
               sx={{
-                fontWeight: 700,
+                fontWeight: 500,
                 color: "inherit",
                 textDecoration: "none",
               }}
@@ -47,8 +50,9 @@ export default function Bar() {
                   // sx={{ mx: 1, color: "inherit" }}
                   sx={{
                     mx: 1,
-                    color: page.title === "통합조회" ? "#0a0a5c" : "inherit",
-                    fontWeight: page.title === "통합조회" ? 700 : "inherit",
+                    color:
+                      location.pathname === page.path ? "#0a0a5c" : "inherit",
+                    fontWeight: 600,
                   }}
                 >
                   {page.title}
@@ -61,8 +65,9 @@ export default function Bar() {
 
       <Routes>
         <Route path="/filecheck" element={<FileCheckPage />} />
-        <Route path="/summary" element={<SummaryPage />} />
+        {/* <Route path="/summary" element={<SummaryPage />} /> */}
         <Route path="/integrateddata" element={<IntegratedDataPage />} />
+        <Route path="/dmdata" element={<DataSearchPage />} />
       </Routes>
     </div>
   );
