@@ -28,7 +28,7 @@ const StyledSelect = styled("select")({
 
   height: "100%",
   marginTop: "10px",
-  marginRight: "5px",
+  marginRight: "15px",
 });
 
 export default function Select({ onDateSelect }) {

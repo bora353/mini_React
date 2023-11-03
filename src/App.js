@@ -30,9 +30,10 @@ function App() {
         </div>
       ) : (
         <Routes>
-          <Route path="*" exact element={<DataSearchPage />} />
+          <Route path="/*" exact element={<DataSearchPage />} />
+          <Route path="/dmdata/*" exact element={<DataSearchPage />} />
           <Route path="/filecheck/*" element={<FileCheckPage />} />
-          <Route path="/summary/*" element={<SummaryPage />} />
+          {/* <Route path="/summary/*" element={<SummaryPage />} /> */}
           <Route path="/integrateddata/" element={<IntegratedDataPage />} />
           <Route path="/integrateddata/rms" element={<Rms />} />
         </Routes>

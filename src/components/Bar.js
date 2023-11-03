@@ -12,8 +12,9 @@ import SummaryPage from "../pages/SummaryPage";
 import IntegratedDataPage from "../pages/IntegratedDataPage";
 
 const pages = [
-  { title: "통합시스템", path: "/integrateddata" },
-  { title: "파일 목록", path: "/filecheck" },
+  { title: "통합조회", path: "/integrateddata" },
+  { title: "데이터조회", path: "/dmdata" },
+  { title: "파일목록조회", path: "/filecheck" },
   // { title: "Summary", path: "/summary" },
 ];
 
@@ -26,8 +27,8 @@ export default function Bar() {
             <Typography
               variant="h6"
               noWrap
-              component={Link}
-              to="/"
+              //component={Link}
+              //to="/"
               sx={{
                 fontWeight: 700,
                 color: "inherit",
@@ -46,8 +47,8 @@ export default function Bar() {
                   // sx={{ mx: 1, color: "inherit" }}
                   sx={{
                     mx: 1,
-                    color: page.title === "통합시스템" ? "#0a0a5c" : "inherit",
-                    fontWeight: page.title === "통합시스템" ? 700 : "inherit",
+                    color: page.title === "통합조회" ? "#0a0a5c" : "inherit",
+                    fontWeight: page.title === "통합조회" ? 700 : "inherit",
                   }}
                 >
                   {page.title}

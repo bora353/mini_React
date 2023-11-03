@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
+import format from "date-fns/format";
+import ko from "date-fns/locale/ko";
 
 const columns = [
   {
@@ -12,17 +14,33 @@ const columns = [
   },
   {
     field: "FileName",
-    headerName: "File Name",
+    headerName: "FileName",
     width: 220,
     align: "center",
     headerAlign: "center",
+    valueGetter: (params) => {
+      const filePath = params.row.FileName;
+      const parts = filePath.split(/[\\/]/);
+      const fileName = parts[parts.length - 1];
+      return fileName;
+    },
   },
   {
     field: "FileTime",
-    headerName: "Save Time",
+    headerName: "SaveDate",
     width: 300,
     align: "center",
     headerAlign: "center",
+    valueGetter: (params) => {
+      return new Date(params.row.FileTime);
+    },
+    valueFormatter: (params) => {
+      const date = params.value;
+      const formattedDate = format(date, "yyyy/MM/dd HH:mm:ss", {
+        locale: ko,
+      });
+      return formattedDate;
+    },
   },
   {
     field: "Success",

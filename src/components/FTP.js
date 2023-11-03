@@ -8,6 +8,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import axios from "axios";
+import { format } from "date-fns";
 
 const StyledSelect = styled("select")({
   border: "1px solid #ccc",
@@ -21,7 +22,7 @@ const CenteredContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  marginTop: "70px",
+  marginTop: "20px",
 });
 
 const HorizontalContainer = styled("div")({
@@ -58,7 +59,7 @@ export default function FTP({ LotId, WaferId }) {
   useEffect(() => {
     const getCurrentDateTime = () => {
       const now = new Date();
-      return now.toISOString();
+      return format(now, "yyyyMMdd_HH:mm:ss");
     };
 
     const currentDateTime = getCurrentDateTime();
@@ -87,7 +88,7 @@ export default function FTP({ LotId, WaferId }) {
   return (
     <div>
       <CenteredContainer>
-        <HorizontalContainer style={{ marginTop: "30px" }}>
+        <HorizontalContainer>
           <AttachFileIcon />
           <FileNameHeading>FileName</FileNameHeading>
         </HorizontalContainer>
@@ -97,15 +98,15 @@ export default function FTP({ LotId, WaferId }) {
           style={{
             border: "1px solid #ccc",
             padding: "10px",
-            width: "400px",
+            width: "350px",
             borderRadius: "5px",
           }}
         >
           {fileName}.csv
         </Typography>
 
-        <FileNameHeading style={{ marginTop: "100px" }}>
-          FTP 전송 폴더 선택
+        <FileNameHeading style={{ marginTop: "50px" }}>
+          Transfer To
         </FileNameHeading>
         <HorizontalContainer>
           <StyledSelect

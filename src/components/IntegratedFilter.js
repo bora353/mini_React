@@ -41,13 +41,13 @@ export default function IntegratedFilter({ onLineChange, onRecipeChange }) {
 
   return (
     <div style={containerStyle}>
-      <div style={{ marginRight: "60px" }}>
+      <div style={{ marginRight: "0px" }}>
         <span style={{ fontSize: "20px", fontWeight: "bold" }}> Line </span>
         <StyledSelect
           onChange={handleLineChange} // 라인 선택 변경 시 핸들러 호출
-          style={{ width: "100px", marginLeft: "30px", marginBottom: "5px" }}
+          style={{ width: "140px", marginLeft: "35px", marginBottom: "5px" }}
         >
-          <option value="">Line 선택</option>
+          <option value="">전체</option>
           <option value="KFR4">KFR4</option>
           <option value="KFR6">KFR6</option>
           <option value="PFBF">PFBF</option>
@@ -58,9 +58,9 @@ export default function IntegratedFilter({ onLineChange, onRecipeChange }) {
         <span style={{ fontSize: "20px", fontWeight: "bold" }}> Recipe </span>
         <StyledSelect
           onChange={handleRecipeChange}
-          style={{ width: "165px", marginLeft: "10px" }}
+          style={{ width: "140px", marginLeft: "10px" }}
         >
-          <option value="">Recipe 선택</option>
+          <option value="">전체</option>
           <option value="TEST_RECIPE_001">TEST_RECIPE_001</option>
           <option value="TEST_RECIPE_002">TEST_RECIPE_002</option>
           <option value="TEST_RECIPE_003">TEST_RECIPE_003</option>

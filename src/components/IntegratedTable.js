@@ -36,7 +36,7 @@ const columns = [
   },
   {
     id: "RecipeId",
-    label: "RecipeId",
+    label: "RecipeId(DM)",
     minWidth: 20,
     align: "center",
   },
@@ -60,7 +60,7 @@ const columns = [
   },
   {
     id: "recipe_id",
-    label: "RecipeId",
+    label: "RecipeId(RMS)",
     minWidth: 20,
     align: "center",
   },
@@ -158,7 +158,27 @@ export default function IntegratedTable({
 
   const handleButtonClick = () => {
     // 원하는 경로로 이동
-    navigate("/integrateddata/rms");
+    //navigate("/integrateddata/rms");
+
+    const selectedData = selectedRows.map((row) => {
+      return {
+        LotId: row.LotId,
+        LineId: row.LineId,
+        StepId: row.StepId,
+        DeviceId: row.DeviceId,
+        EquipId: row.EquipId,
+        RecipeId: row.RecipeId,
+        line: row.line,
+        step_id: row.step_id,
+        equip_id: row.equip_id,
+        recipe_id: row.recipe_id,
+      };
+    });
+
+    // 선택한 데이터를 다음 경로로 전달합니다.
+    navigate("/integrateddata/rms", {
+      state: { selectedData }, // selectedData를 경로로 전달
+    });
   };
 
   return (
@@ -262,9 +282,11 @@ export default function IntegratedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <Button variant="contained" onClick={handleButtonClick}>
-        조회하기
-      </Button>{" "}
+      <div style={{ float: "right", marginTop: "10px" }}>
+        <Button variant="contained" onClick={handleButtonClick}>
+          조회하기
+        </Button>
+      </div>
     </div>
   );
 }

@@ -6,6 +6,9 @@ import axios from "axios";
 import Image from "../components/Image";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import { Button } from "@mui/material";
+import format from "date-fns/format";
+import ko from "date-fns/locale/ko";
+import TransferModal from "./TransferModal";
 
 export default function LotWafer({
   searchQuery,
@@ -51,44 +54,13 @@ export default function LotWafer({
       });
   }, []);
 
-  const CustomButton = ({ rowData }) => {
-    const handleDownload = () => {
-      const confirmResult = window.confirm("csv 파일을 생성하시겠습니까?");
-
-      if (confirmResult) {
-        window.location.href = `/summary?LotId=${rowData.LotId}&WaferId=${rowData.WaferNo}`;
-      }
-    };
-
-    return (
-      <Button onClick={handleDownload}>
-        <span className="userListEdit">
-          csv <SaveAltIcon fontSize="small" />
-        </span>
-      </Button>
-    );
-  };
-
   const columns = [
     {
       field: "summary",
-      headerName: "데이터 저장",
+      headerName: "Transfer",
       width: 100,
-      // renderCell: (params) => {
-      //   return (
-      //     <>
-      //       <Link
-      //         to={`/summary?LotId=${params.row.LotId}&WaferId=${params.row.WaferNo}`}
-      //       >
-      //         <button
-      //         //className="userListEdit"
-      //         >
-      //           csv <SaveAltIcon fontSize="small" />
-      //         </button>
-      //       </Link>
-      //     </>
-      //   );
-      // },
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         return <CustomButton rowData={params.row} />;
       },
@@ -132,8 +104,9 @@ export default function LotWafer({
       field: "DeviceId",
       headerName: "DeviceID",
       type: "number",
-      width: 100,
+      width: 110,
       align: "center",
+      headerAlign: "center",
     },
     {
       field: "StepId",
@@ -161,7 +134,7 @@ export default function LotWafer({
     {
       field: "ScanTime",
       headerName: "ScanTime",
-      width: 200,
+      width: 170,
       align: "center",
       headerAlign: "center",
       valueGetter: (params) => {
@@ -172,13 +145,8 @@ export default function LotWafer({
       },
       valueFormatter: (params) => {
         const date = params.value;
-        const formattedDate = date.toLocaleString("ko-KR", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
+        const formattedDate = format(date, "yyyy/MM/dd HH:mm:ss", {
+          locale: ko,
         });
         return formattedDate;
       },
@@ -186,7 +154,7 @@ export default function LotWafer({
     {
       field: "SaveDate",
       headerName: "SaveDate",
-      width: 200,
+      width: 170,
       align: "center",
       headerAlign: "center",
       valueGetter: (params) => {
@@ -194,13 +162,8 @@ export default function LotWafer({
       },
       valueFormatter: (params) => {
         const date = params.value;
-        const formattedDate = date.toLocaleString("ko-KR", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
+        const formattedDate = format(date, "yyyy/MM/dd HH:mm:ss", {
+          locale: ko,
         });
         return formattedDate;
       },
@@ -241,26 +204,38 @@ export default function LotWafer({
       align: "center",
       headerAlign: "center",
     },
-    // {
-    //   field: "select",
-    //   headerName: "Select",
-    //   width: 90,
-    //   renderCell: (params) => {
-    //     const handleRowClick = (SlotNo) => {
-    //       setSelectedSlotNo(SlotNo);
-    //     };
-
-    //     return (
-    //       <button
-    //         className="userListEdit"
-    //         onClick={() => handleRowClick(params.row.SlotNo)}
-    //       >
-    //         상세보기
-    //       </button>
-    //     );
-    //   },
-    // },
   ];
+
+  const CustomButton = ({ rowData }) => {
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => {
+      setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+      setOpenModal(false);
+    };
+
+    return (
+      <>
+        <div style={{ textAlign: "center" }}>
+          <Link
+            to="#"
+            onClick={handleOpenModal}
+            style={{ textDecoration: "none" }}
+          >
+            CSV <SaveAltIcon fontSize="small" style={{ cursor: "pointer" }} />
+          </Link>
+        </div>
+        <TransferModal
+          open={openModal}
+          onClose={handleCloseModal}
+          rowData={rowData}
+        />
+      </>
+    );
+  };
 
   //검색해서 데이터 필터링
   // const filteredData =

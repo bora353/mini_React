@@ -10,23 +10,59 @@ export default function Defect({
   const [selectedRows, setSelectedRows] = useState([]);
 
   const columns = [
-    { field: "DefectNo", headerName: "DefectNo", width: 100, align: "center" },
-    { field: "DefectId", headerName: "DefectId", width: 100, align: "center" },
-    { field: "XRel", headerName: "XRel", width: 130, align: "center" },
-    { field: "YRel", headerName: "YRel", width: 130, align: "center" },
-    { field: "XIndex", headerName: "XIndex", align: "center" },
-    { field: "YIndex", headerName: "YIndex", align: "center" },
+    {
+      field: "DefectNo",
+      headerName: "DefectNo",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "DefectId",
+      headerName: "DefectId",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "XRel",
+      headerName: "XRel",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "YRel",
+      headerName: "YRel",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "XIndex",
+      headerName: "XIndex",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "YIndex",
+      headerName: "YIndex",
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "RoughBinNumber",
       headerName: "RoughBinNumber",
       width: 160,
       align: "center",
+      headerAlign: "center",
     },
     {
       field: "FineBinNumber",
       headerName: "FineBinNumber",
       width: 160,
       align: "center",
+      headerAlign: "center",
     },
     // {
     //   field: "select",
