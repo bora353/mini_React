@@ -16,7 +16,6 @@ const pages = [
   { title: "데이터조회", path: "/dmdata" },
   { title: "통합조회", path: "/integrateddata" },
   { title: "파일목록조회", path: "/filecheck" },
-  // { title: "Summary", path: "/summary" },
 ];
 
 export default function Bar() {
@@ -65,9 +64,8 @@ export default function Bar() {
 
       <Routes>
         <Route path="/filecheck" element={<FileCheckPage />} />
-        {/* <Route path="/summary" element={<SummaryPage />} /> */}
         <Route path="/integrateddata" element={<IntegratedDataPage />} />
-        <Route path="/dmdata" element={<DataSearchPage />} />
+        <Route path="/dmdata" exact element={<DataSearchPage />} />
       </Routes>
     </div>
   );

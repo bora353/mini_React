@@ -33,7 +33,7 @@ export default function Image({
   // Defect 데이터 가져오기
   useEffect(() => {
     axios
-      .get("/parsing")
+      .get("/api/parsing/defect")
       .then((response) => {
         const defectData = response.data.Defects;
         const defectIdMap = {};
@@ -50,7 +50,7 @@ export default function Image({
   // Image 데이터 가져오기
   useEffect(() => {
     axios
-      .get("/parsing/image")
+      .get("/api/parsing/image")
 
       .then((response) => {
         console.log("selectedSlotNo", selectedSlotNo);
@@ -101,10 +101,9 @@ export default function Image({
           justifyContent: "center",
         }}
       >
-        {/* <img src="\img\0426165223\W01\Patch\Archive\2051_T10729.1_STEP001_2.jpg" /> */}
         <ImageList
           sx={{
-            width: 1500,
+            width: 1460,
             height: 500,
             border: "1px solid #D3D3D3",
             marginTop: 0,

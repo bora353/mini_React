@@ -5,36 +5,18 @@ import DataSearchPage from "./pages/DataSearchPage";
 import FileCheckPage from "./pages/FileCheckPage";
 import IntegratedDataPage from "./pages/IntegratedDataPage";
 import Rms from "./pages/Rms";
+import Loading from "./components/Loading";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 500); // 시간 변경 하기
-  }, []);
-
   return (
     <Router>
-      {isLoading ? (
-        <div className="modal-container">
-          <div className="modal-content">
-            <img
-              src="https://cdn.pixabay.com/photo/2016/08/20/09/50/board-1607174_1280.jpg"
-              alt="로딩 중"
-            />
-          </div>
-        </div>
-      ) : (
-        <Routes>
-          <Route path="/*" exact element={<DataSearchPage />} />
-          <Route path="/dmdata/*" exact element={<DataSearchPage />} />
-          <Route path="/filecheck/*" element={<FileCheckPage />} />
-          <Route path="/integrateddata/" element={<IntegratedDataPage />} />
-          <Route path="/integrateddata/rms" element={<Rms />} />
-        </Routes>
-      )}
+      <Routes>
+        <Route path="/" exact element={<DataSearchPage />} />
+        <Route path="/dmdata/*" exact element={<DataSearchPage />} />
+        <Route path="/filecheck/*" element={<FileCheckPage />} />
+        <Route path="/integrateddata/" element={<IntegratedDataPage />} />
+        <Route path="/integrateddata/rms" element={<Rms />} />
+      </Routes>
     </Router>
   );
 }

@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import format from "date-fns/format";
 import ko from "date-fns/locale/ko";
+import Loading from "./Loading";
 
 const columns = [
   {
@@ -54,21 +55,28 @@ const columns = [
 
 export default function File() {
   const [dbData, setDbData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const mainApi = async () => {
+    try {
+      const response = await axios.get("/api/parsing/file");
+      const data = response.data.SmfFiles;
+      setDbData(data);
+    } catch (error) {
+      console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get("/parsing")
-      .then((response) => {
-        // 데이터를 state에 저장
-        setDbData(response.data.SmfFiles);
-      })
-      .catch((error) => {
-        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
-      });
+    mainApi();
   }, []);
 
   return (
     <div>
+      <Loading isOpen={loading} />
+
       <div style={{ marginTop: "50px" }}>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
@@ -82,7 +90,7 @@ export default function File() {
             }}
             pageSizeOptions={[5, 10]}
             getRowId={(row) => row.FileId}
-            sx={{ height: 600, margin: "0 200px" }}
+            sx={{ height: 500, margin: "0 300px" }}
           />
         </div>
       </div>

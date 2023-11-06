@@ -10,13 +10,13 @@ export default function Defect({
   const [selectedRows, setSelectedRows] = useState([]);
 
   const columns = [
-    {
-      field: "DefectNo",
-      headerName: "DefectNo",
-      width: 100,
-      align: "center",
-      headerAlign: "center",
-    },
+    // {
+    //   field: "DefectNo",
+    //   headerName: "DefectNo",
+    //   width: 100,
+    //   align: "center",
+    //   headerAlign: "center",
+    // },
     {
       field: "DefectId",
       headerName: "DefectId",
@@ -27,26 +27,28 @@ export default function Defect({
     {
       field: "XRel",
       headerName: "XRel",
-      width: 150,
+      width: 170,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "YRel",
       headerName: "YRel",
-      width: 150,
+      width: 170,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "XIndex",
       headerName: "XIndex",
+      width: 120,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "YIndex",
       headerName: "YIndex",
+      width: 120,
       align: "center",
       headerAlign: "center",
     },
@@ -87,7 +89,7 @@ export default function Defect({
 
   useEffect(() => {
     axios
-      .get("/parsing")
+      .get("/api/parsing/defect")
       .then((response) => {
         console.log(response.data.Defects);
         setDefectData(response.data.Defects);

@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Defect from "./Defect";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Image from "../components/Image";
+import Image from "./Image";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import { Button } from "@mui/material";
 import format from "date-fns/format";
@@ -11,9 +11,7 @@ import ko from "date-fns/locale/ko";
 import TransferModal from "./TransferModal";
 import Loading from "./Loading";
 
-export default function LotWafer({
-  searchQuery,
-  searchOption,
+export default function LotWafer_integrated({
   startDate,
   endDate,
   dateType,
@@ -61,23 +59,6 @@ export default function LotWafer({
   }, []);
 
   const columns = [
-    {
-      field: "Transfer",
-      headerName: "Transfer",
-      width: 100,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) => {
-        return <CustomButton rowData={params.row} />;
-      },
-    },
-    // {
-    //   field: "LotNo",
-    //   headerName: "LotNo",
-    //   width: 70,
-    //   align: "center",
-    //   headerAlign: "center",
-    // },
     {
       field: "LotId",
       headerName: "LotId",
@@ -211,78 +192,16 @@ export default function LotWafer({
     },
   ];
 
-  const CustomButton = ({ rowData }) => {
-    const [openModal, setOpenModal] = useState(false);
-
-    const handleOpenModal = () => {
-      setOpenModal(true);
-    };
-
-    const handleCloseModal = () => {
-      setOpenModal(false);
-    };
-
-    return (
-      <>
-        <div style={{ textAlign: "center" }}>
-          <Link
-            to="#"
-            onClick={handleOpenModal}
-            style={{ textDecoration: "none" }}
-          >
-            CSV <SaveAltIcon fontSize="small" style={{ cursor: "pointer" }} />
-          </Link>
-        </div>
-        <TransferModal
-          open={openModal}
-          onClose={handleCloseModal}
-          rowData={rowData}
-        />
-      </>
-    );
-  };
-
-  //검색해서 데이터 필터링
-  // const filteredData =
-  //   searchOption === "LotID"
-  //     ? dbData.filter((item) => {
-  //         const result = item.LotId.includes(searchQuery);
-  //         console.log("LotID 일때 체크", searchQuery, result);
-  //         return result;
-  //       })
-  //     : searchOption === "WaferID"
-  //     ? dbData.filter((item) => {
-  //         const result = item.WaferNo === searchQuery;
-  //         console.log("WaferID 일때 체크", searchQuery, result);
-  //         return result;
-  //       })
-  //     : dbData;
-
-  const filteredData =
-    searchOption === "LotID" && searchQuery
-      ? dbData.filter((item) => {
-          const result = item.LotId.includes(searchQuery);
-          console.log("LotID 일때 체크", searchQuery, result);
-          return result;
-        })
-      : searchOption === "WaferID" && searchQuery
-      ? dbData.filter((item) => {
-          const result = item.WaferNo === searchQuery;
-          console.log("WaferID 일때 체크", searchQuery, result);
-          return result;
-        })
-      : dbData;
-
   const filteredByDateRange =
     dateType === "saveDate"
-      ? filteredData.filter((item) => {
+      ? dbData.filter((item) => {
           const itemDate = new Date(item.SaveDate);
           const startDateDate = new Date(startDate);
           const endDateDate = new Date(endDate);
           return itemDate >= startDateDate && itemDate <= endDateDate;
         })
       : dateType === "scanDate"
-      ? filteredData.filter((item) => {
+      ? dbData.filter((item) => {
           const scanTime = new Date(item.ScanTime);
 
           const scanTimeDate = new Date(scanTime);
@@ -296,7 +215,7 @@ export default function LotWafer({
 
           return scanTimeDate >= startDateDate && scanTimeDate <= endDateDate;
         })
-      : filteredData.filter((item) => {
+      : dbData.filter((item) => {
           const today = new Date();
           const startOfDay = new Date(
             today.getFullYear(),
@@ -323,6 +242,7 @@ export default function LotWafer({
 
   const handleCellClick = (params) => {
     setSelectedSlotNo(params.row.SlotNo);
+    console.log("선택한 데이터:", params.row);
   };
 
   return (

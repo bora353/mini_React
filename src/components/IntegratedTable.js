@@ -12,6 +12,7 @@ import axios from "axios";
 import "../App.css";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 const columns = [
   { id: "LotId", label: "LotId", minWidth: 20, align: "center" },
@@ -80,8 +81,7 @@ export default function IntegratedTable({
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [filteredData, setFilteredData] = useState([]); // 필터링된 데이터를 저장
   const [selectedRows, setSelectedRows] = useState([]);
-
-  //const [integratedData, setIntegratedData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -94,7 +94,7 @@ export default function IntegratedTable({
 
   useEffect(() => {
     axios
-      .get("/integrated")
+      .get("/api/integrated")
       .then((response) => {
         const rows = response.data.map((item) => ({
           id: item.Lot._id,
@@ -111,9 +111,11 @@ export default function IntegratedTable({
         }));
 
         setIntegratedData(rows); // 데이터를 상태에 저장
+        setLoading(false);
       })
       .catch((error) => {
         console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+        setLoading(false);
       });
   }, [setIntegratedData]);
 
@@ -182,110 +184,114 @@ export default function IntegratedTable({
   };
 
   return (
-    <div style={tableContainerStyle}>
-      <Paper sx={{ width: "100%" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  align="center"
-                  colSpan={6}
-                  style={{
-                    borderRight: "2px solid #e0e0e0",
-                    borderTop: "2px solid #e0e0e0",
-                    borderBottom: "2px solid #e0e0e0",
-                    borderLeft: "2px solid #e0e0e0",
-                  }}
-                >
-                  <Typography variant="h6" fontWeight="bold">
-                    DM
-                  </Typography>
-                </TableCell>
-                <TableCell
-                  align="center"
-                  colSpan={4}
-                  style={{
-                    borderRight: "2px solid #e0e0e0",
-                    borderTop: "2px solid #e0e0e0",
-                    borderBottom: "2px solid #e0e0e0",
-                  }}
-                >
-                  <Typography variant="h6" fontWeight="bold">
-                    RMS
-                  </Typography>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                {columns.map((column) => (
+    <div>
+      <Loading isOpen={loading} />
+
+      <div style={tableContainerStyle}>
+        <Paper sx={{ width: "100%" }}>
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
                   <TableCell
-                    key={column.id}
-                    align={column.align}
-                    //style={{ top: 57, minWidth: column.minWidth }}
+                    align="center"
+                    colSpan={6}
                     style={{
-                      top: 57,
-                      minWidth: column.minWidth,
-                      //borderRight: "2px solid #e0e0e0",
-                      fontWeight: "bold",
+                      borderRight: "1px solid #e0e0e0",
+                      borderTop: "1px solid #e0e0e0",
+                      //borderBottom: "2px solid #e0e0e0",
+                      //borderLeft: "2px solid #e0e0e0",
                     }}
                   >
-                    {column.label}
+                    <Typography variant="h6" fontWeight="bold">
+                      DM
+                    </Typography>
                   </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredData // rows 대신 integratedData를 사용
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={index}
-                      className={
-                        selectedRows.includes(row) ? "selected-row" : ""
-                      }
-                      onClick={() => handleRowClick(row)} // 클릭 이벤트 추가
+                  <TableCell
+                    align="center"
+                    colSpan={4}
+                    style={{
+                      //borderRight: "2px solid #e0e0e0",
+                      borderTop: "1px solid #e0e0e0",
+                      //borderBottom: "2px solid #e0e0e0",
+                    }}
+                  >
+                    <Typography variant="h6" fontWeight="bold">
+                      RMS
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      //style={{ top: 57, minWidth: column.minWidth }}
+                      style={{
+                        top: 57,
+                        minWidth: column.minWidth,
+                        //borderRight: "2px solid #e0e0e0",
+                        fontWeight: "bold",
+                      }}
                     >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            style={{
-                              //borderRight: "1px solid #e0e0e0",
-                              minWidth: column.minWidth,
-                            }}
-                          >
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={filteredData.length} // rows.length 대신 integratedData.length 사용
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <div style={{ float: "right", marginTop: "10px" }}>
-        <Button variant="contained" onClick={handleButtonClick}>
-          조회하기
-        </Button>
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredData // rows 대신 integratedData를 사용
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={index}
+                        className={
+                          selectedRows.includes(row) ? "selected-row" : ""
+                        }
+                        onClick={() => handleRowClick(row)} // 클릭 이벤트 추가
+                      >
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              style={{
+                                //borderRight: "1px solid #e0e0e0",
+                                minWidth: column.minWidth,
+                              }}
+                            >
+                              {column.format && typeof value === "number"
+                                ? column.format(value)
+                                : value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={filteredData.length} // rows.length 대신 integratedData.length 사용
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+        <div style={{ float: "right", marginTop: "10px" }}>
+          <Button variant="contained" onClick={handleButtonClick}>
+            조회하기
+          </Button>
+        </div>
       </div>
     </div>
   );

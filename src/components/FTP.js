@@ -36,7 +36,7 @@ const FileNameHeading = styled(Typography)({
   marginBottom: "10px",
 });
 
-export default function FTP({ LotId, WaferId }) {
+export default function FTP({ LotId, WaferId, onClose }) {
   const [open, setOpen] = useState(false);
   const [fileName, setFileName] = useState("");
   const [selectedOption, setSelectedOption] = useState("ABC");
@@ -75,10 +75,14 @@ export default function FTP({ LotId, WaferId }) {
     };
 
     axios
-      .post("/csv", data) // POST 요청으로 변경
+      .post("/api/csv", data) // POST 요청으로 변경
       .then((response) => {
         console.log("파일명 및 선택한 옵션 전달 성공", response);
         handleClose();
+
+        if (onClose) {
+          onClose();
+        }
       })
       .catch((error) => {
         console.error("파일명 및 선택한 옵션 전달 실패", error);
