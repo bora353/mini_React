@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 import LotWafer_integrated from "../components/LotWafer_integrated";
 import { Button } from "@mui/material";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import TransferModal from "../components/TransferModal";
 import TransferModal_integrated from "../components/TransferModal_integrated";
 import RmsData_integrated from "../components/RmsData_integrated";
 import { toast } from "react-toastify";

@@ -132,7 +132,11 @@ export default function Image({
                   alt={item.ImgNo}
                   loading="lazy"
                   onClick={() => {
-                    openModal(item.imageBytes);
+                    openModal({
+                      ...item,
+                      defectId: defectIdMap[item.defectNo] || "N/A",
+                      fileName: item.tiffFileName.split("\\").pop(),
+                    });
                   }}
                 />
               </ImageListItem>
@@ -144,12 +148,17 @@ export default function Image({
       <Dialog open={isModalOpen} onClose={closeModal}>
         <DialogContent>
           {selectedImage && (
-            <img
-              src={`data:image/jpeg;base64,${selectedImage}`}
-              //src={`\\img\\${selectedImage}?w=600`}
-              alt="Selected Image"
-              onClick={closeModal}
-            />
+            <>
+              <div>
+                Defect ID: {selectedImage.defectId || "N/A"}, [
+                {selectedImage.fileName}]
+              </div>
+              <img
+                src={`data:image/jpeg;base64,${selectedImage.imageBytes}`}
+                alt="Selected Image"
+                onClick={closeModal}
+              />
+            </>
           )}
         </DialogContent>
       </Dialog>

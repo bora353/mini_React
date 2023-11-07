@@ -235,6 +235,7 @@ export default function LotWafer({
         </div>
         <TransferModal
           open={openModal}
+          setOpen={setOpenModal}
           onClose={handleCloseModal}
           rowData={rowData}
         />
