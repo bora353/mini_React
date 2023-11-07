@@ -62,17 +62,6 @@ export default function Select({ onDateSelect }) {
     onDateSelect(dateType, startDate, endDate);
   }, [dateType, startDate, endDate, onDateSelect]);
 
-  // 선택 날짜 전달하기
-  // const handleSearchClick = () => {
-  //   const today = dayjs();
-  //   const startOfDay = today.startOf("day");
-  //   const endOfDay = today.endOf("day");
-
-  //   setStartDate(startOfDay);
-  //   setEndDate(endOfDay);
-  //   onDateSelect(dateType, startDate, endDate);
-  // };
-
   return (
     <div style={{ marginTop: "30px" }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

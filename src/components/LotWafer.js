@@ -290,9 +290,9 @@ export default function LotWafer({
           const endDateDate = new Date(endDate);
 
           console.log("여긴 scanDate일때");
-          console.log(scanTimeDate);
-          console.log(startDateDate);
-          console.log(endDateDate);
+          // console.log(scanTimeDate);
+          // console.log(startDateDate);
+          // console.log(endDateDate);
 
           return scanTimeDate >= startDateDate && scanTimeDate <= endDateDate;
         })
@@ -311,9 +311,9 @@ export default function LotWafer({
           const itemDate = new Date(item.SaveDate);
 
           console.log("여긴 saveDate이고 날짜 미선택시 default");
-          console.log(itemDate);
-          console.log(startOfDay);
-          console.log(endOfDay);
+          // console.log(itemDate);
+          // console.log(startOfDay);
+          // console.log(endOfDay);
           return itemDate >= startOfDay && itemDate < endOfDay;
         });
 

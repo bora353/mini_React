@@ -4,8 +4,6 @@ import Defect from "./Defect";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Image from "./Image";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import { Button } from "@mui/material";
 import format from "date-fns/format";
 import ko from "date-fns/locale/ko";
 import TransferModal from "./TransferModal";
@@ -16,6 +14,7 @@ export default function LotWafer_integrated({
   endDate,
   dateType,
   selectedLotID,
+  setDmSelectedData,
 }) {
   const [dbData, setDbData] = useState([]);
   const [selectedSlotNo, setSelectedSlotNo] = useState(null);
@@ -192,57 +191,58 @@ export default function LotWafer_integrated({
     },
   ];
 
-  const filteredByDateRange =
-    dateType === "saveDate"
-      ? dbData.filter((item) => {
-          const itemDate = new Date(item.SaveDate);
-          const startDateDate = new Date(startDate);
-          const endDateDate = new Date(endDate);
-          return itemDate >= startDateDate && itemDate <= endDateDate;
-        })
-      : dateType === "scanDate"
-      ? dbData.filter((item) => {
-          const scanTime = new Date(item.ScanTime);
+  // const filteredByDateRange =
+  //   dateType === "saveDate"
+  //     ? dbData.filter((item) => {
+  //         const itemDate = new Date(item.SaveDate);
+  //         const startDateDate = new Date(startDate);
+  //         const endDateDate = new Date(endDate);
+  //         return itemDate >= startDateDate && itemDate <= endDateDate;
+  //       })
+  //     : dateType === "scanDate"
+  //     ? dbData.filter((item) => {
+  //         const scanTime = new Date(item.ScanTime);
 
-          const scanTimeDate = new Date(scanTime);
-          const startDateDate = new Date(startDate);
-          const endDateDate = new Date(endDate);
+  //         const scanTimeDate = new Date(scanTime);
+  //         const startDateDate = new Date(startDate);
+  //         const endDateDate = new Date(endDate);
 
-          console.log("여긴 scanDate일때");
-          console.log(scanTimeDate);
-          console.log(startDateDate);
-          console.log(endDateDate);
+  //         console.log("integrate 여긴 scanDate일때");
+  //         // console.log(scanTimeDate);
+  //         // console.log(startDateDate);
+  //         // console.log(endDateDate);
 
-          return scanTimeDate >= startDateDate && scanTimeDate <= endDateDate;
-        })
-      : dbData.filter((item) => {
-          const today = new Date();
-          const startOfDay = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate()
-          );
-          const endOfDay = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate() + 1
-          );
-          const itemDate = new Date(item.SaveDate);
+  //         return scanTimeDate >= startDateDate && scanTimeDate <= endDateDate;
+  //       })
+  //     : dbData.filter((item) => {
+  //         const today = new Date();
+  //         const startOfDay = new Date(
+  //           today.getFullYear(),
+  //           today.getMonth(),
+  //           today.getDate()
+  //         );
+  //         const endOfDay = new Date(
+  //           today.getFullYear(),
+  //           today.getMonth(),
+  //           today.getDate() + 1
+  //         );
+  //         const itemDate = new Date(item.SaveDate);
 
-          console.log("여긴 saveDate이고 날짜 미선택시 default");
-          console.log(itemDate);
-          console.log(startOfDay);
-          console.log(endOfDay);
-          return itemDate >= startOfDay && itemDate < endOfDay;
-        });
+  //         console.log("integrate 여긴 saveDate이고 날짜 미선택시 default");
+  //         // console.log(itemDate);
+  //         // console.log(startOfDay);
+  //         // console.log(endOfDay);
+  //         return itemDate >= startOfDay && itemDate < endOfDay;
+  //       });
 
   const filteredBySelectedLotID = selectedLotID
-    ? filteredByDateRange.filter((item) => item.LotId === selectedLotID)
-    : filteredByDateRange;
+    ? dbData.filter((item) => item.LotId === selectedLotID)
+    : dbData;
 
   const handleCellClick = (params) => {
     setSelectedSlotNo(params.row.SlotNo);
-    console.log("선택한 데이터:", params.row);
+    console.log("LotWafer 선택한 데이터:", params.row);
+    setDmSelectedData(params.row);
   };
 
   return (

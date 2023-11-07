@@ -12,7 +12,6 @@ export default function TransferModal({ open, onClose, rowData }) {
   return (
     <div>
       <Dialog open={open} onClose={onClose}>
-        {/* <DialogTitle>CSV 파일 전송</DialogTitle> */}
         <DialogContent>
           {/* <p>Lot ID: {rowData.LotId}</p>
           <p>Wafer No: {rowData.WaferNo}</p> */}

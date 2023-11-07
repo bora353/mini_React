@@ -9,6 +9,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import axios from "axios";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const StyledSelect = styled("select")({
   border: "1px solid #ccc",
@@ -39,7 +42,7 @@ const FileNameHeading = styled(Typography)({
 export default function FTP({ LotId, WaferId, onClose }) {
   const [open, setOpen] = useState(false);
   const [fileName, setFileName] = useState("");
-  const [selectedOption, setSelectedOption] = useState("ABC");
+  const [selectedOption, setSelectedOption] = useState("KFR4");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -83,6 +86,11 @@ export default function FTP({ LotId, WaferId, onClose }) {
         if (onClose) {
           onClose();
         }
+        toast.success("파일 전송이 완료되었습니다.", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: true,
+        });
       })
       .catch((error) => {
         console.error("파일명 및 선택한 옵션 전달 실패", error);
@@ -118,8 +126,11 @@ export default function FTP({ LotId, WaferId, onClose }) {
             value={selectedOption}
             onChange={(e) => setSelectedOption(e.target.value)}
           >
-            <option value="ABC">ABC폴더</option>
-            <option value="DEF">DEF폴더</option>
+            <option value="default" selected disabled>
+              ▶ Samsung
+            </option>
+            <option value="KFR4"> ▸ KFR4</option>
+            <option value="PFBF"> ▸ PFBF</option>
           </StyledSelect>
           <Button variant="contained" onClick={handleClickOpen}>
             <DriveFileMoveIcon />
@@ -140,6 +151,7 @@ export default function FTP({ LotId, WaferId, onClose }) {
           </Button>
         </DialogActions>
       </Dialog>
+      <ToastContainer />
     </div>
   );
 }
