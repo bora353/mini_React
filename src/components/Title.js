@@ -22,7 +22,7 @@ export default function Title() {
       title = "csv 파일 전송";
       break;
     case "/integrateddata/rms":
-      title = "통합시스템";
+      title = "통합 데이터 조회";
       break;
     default:
       title = "데이터 조회";
