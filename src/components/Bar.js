@@ -50,7 +50,10 @@ export default function Bar() {
                   sx={{
                     mx: 1,
                     color:
-                      location.pathname === page.path ? "#0a0a5c" : "inherit",
+                      (location.pathname === "/" && page.path === "/dmdata") ||
+                      location.pathname === page.path
+                        ? "#0a0a5c"
+                        : "inherit",
                     fontWeight: 600,
                   }}
                 >
@@ -63,9 +66,9 @@ export default function Bar() {
       </AppBar>
 
       <Routes>
-        <Route path="/filecheck" element={<FileCheckPage />} />
+        <Route path="/dmdata" element={<DataSearchPage />} />
         <Route path="/integrateddata" element={<IntegratedDataPage />} />
-        <Route path="/dmdata" exact element={<DataSearchPage />} />
+        <Route path="/filecheck" element={<FileCheckPage />} />
       </Routes>
     </div>
   );
