@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Bar from "../components/Bar";
 import Title from "../components/Title";
 import { useLocation } from "react-router-dom";
@@ -25,9 +25,31 @@ export default function Rms() {
     console.log(dateType, start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD"));
   };
 
+  //테스트중(기존코드)
+  // const location = useLocation();
+  // const selectedData = location.state.selectedData;
+  // const [data, setData] = useState(selectedData);
+
+  //--------
+  const [data, setData] = useState([]);
   const location = useLocation();
-  const selectedData = location.state.selectedData;
-  const [data, setData] = useState(selectedData);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    // LotId와 RecipeId를 가져옵니다.
+    const lotId = searchParams.get("LotId");
+    const recipeId = searchParams.get("RecipeId");
+
+    // 가져온 데이터를 state에 저장합니다.
+    setData({
+      LotId: lotId,
+      RecipeId: recipeId,
+    });
+
+    console.log("check!!", lotId, recipeId);
+  }, [location.search]);
+  //----------
 
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 변수
 
@@ -82,7 +104,7 @@ export default function Rms() {
         <p>RecipeId: {data[0].RecipeId}</p>
       </div> */}
       <RmsData_integrated
-        IntegratedRecipeId={data[0].RecipeId}
+        IntegratedRecipeId={data.RecipeId}
         setRmsSelectedData={setRmsSelectedData}
       />
       {/* <RmsData IntegratedRecipeId={data[0].RecipeId} /> */}
@@ -90,7 +112,7 @@ export default function Rms() {
         dateType={dateType}
         startDate={startDate}
         endDate={endDate}
-        selectedLotID={data[0].LotId}
+        selectedLotID={data.LotId}
         setDmSelectedData={setDmSelectedData}
       />
       <ToastContainer />

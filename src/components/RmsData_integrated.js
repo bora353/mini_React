@@ -151,6 +151,7 @@ export default function RmsData_integrated({
           };
         });
 
+        console.log("야아1");
         const filteredData = processedData.filter(
           (item) => item.recipeId === IntegratedRecipeId
         );
@@ -160,7 +161,7 @@ export default function RmsData_integrated({
       .catch((error) => {
         console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
       });
-  }, []);
+  }, [IntegratedRecipeId]);
 
   const handleCellClick = (params) => {
     console.log("RMS 선택한 데이터:", params.row);

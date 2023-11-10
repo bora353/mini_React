@@ -159,39 +159,68 @@ export default function IntegratedTable({
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    const selectedData = selectedRows.map((row) => {
-      return {
-        LotId: row.LotId,
-        LineId: row.LineId,
-        StepId: row.StepId,
-        DeviceId: row.DeviceId,
-        EquipId: row.EquipId,
-        RecipeId: row.RecipeId,
-        line: row.line,
-        step_id: row.step_id,
-        equip_id: row.equip_id,
-        recipe_id: row.recipe_id,
-      };
-    });
+    // ------------기존코드
+    // const selectedData = selectedRows.map((row) => {
+    //   return {
+    //     LotId: row.LotId,
+    //     //LineId: row.LineId,
+    //     //StepId: row.StepId,
+    //     //DeviceId: row.DeviceId,
+    //     //EquipId: row.EquipId,
+    //     RecipeId: row.RecipeId,
+    //     //line: row.line,
+    //     //step_id: row.step_id,
+    //     //equip_id: row.equip_id,
+    //     //recipe_id: row.recipe_id,
+    //   };
+    // });
 
-    // 선택한 데이터를 다음 경로로 전달합니다.
     // navigate("/integrateddata/rms", {
     //   state: { selectedData }, // selectedData를 경로로 전달
     // });
 
-    // ---------------------테스트
-    const queryString = Object.keys(selectedData)
-      .map(
-        (key) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(selectedData[key])}`
-      )
-      .join("&");
+    // -------------새탭 열리는 것으로 변경
+    // const queryString = selectedData
+    //   .map(
+    //     (data) =>
+    //       `${encodeURIComponent("LotId")}=${encodeURIComponent(
+    //         data.LotId
+    //       )}&${encodeURIComponent("RecipeId")}=${encodeURIComponent(
+    //         data.RecipeId
+    //       )}`
+    //   )
+    //   .join("&");
 
-    const newTab = window.open(`/integrateddata/rms?${queryString}`, `_blank`);
+    // const newTab = window.open(`/integrateddata/rms?${queryString}`, "_blank");
 
-    if (newTab) {
-      newTab.focus();
-    }
+    // if (newTab) {
+    //   newTab.focus();
+    // }
+
+    //---다중선택 성공---
+    selectedRows.forEach((row, index) => {
+      const selectedData = {
+        LotId: row.LotId,
+        RecipeId: row.RecipeId,
+      };
+
+      const queryString = Object.entries(selectedData)
+        .map(
+          ([key, value]) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+        )
+        .join("&");
+
+      // 각 탭의 URL을 고유하게 만들기 위해 index를 추가
+      const newTab = window.open(
+        `/integrateddata/rms?${queryString}&tabIndex=${index}`,
+        "_blank"
+      );
+
+      if (newTab) {
+        newTab.focus();
+      }
+    });
   };
 
   return (
