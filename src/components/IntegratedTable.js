@@ -159,9 +159,6 @@ export default function IntegratedTable({
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    // 원하는 경로로 이동
-    //navigate("/integrateddata/rms");
-
     const selectedData = selectedRows.map((row) => {
       return {
         LotId: row.LotId,
@@ -178,9 +175,23 @@ export default function IntegratedTable({
     });
 
     // 선택한 데이터를 다음 경로로 전달합니다.
-    navigate("/integrateddata/rms", {
-      state: { selectedData }, // selectedData를 경로로 전달
-    });
+    // navigate("/integrateddata/rms", {
+    //   state: { selectedData }, // selectedData를 경로로 전달
+    // });
+
+    // ---------------------테스트
+    const queryString = Object.keys(selectedData)
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(selectedData[key])}`
+      )
+      .join("&");
+
+    const newTab = window.open(`/integrateddata/rms?${queryString}`, `_blank`);
+
+    if (newTab) {
+      newTab.focus();
+    }
   };
 
   return (
