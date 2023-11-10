@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 const StyledSelect = styled("select")({
   border: "1px solid #ccc",
   borderRadius: "4px",
   padding: "5px",
   marginRight: "10px",
-  height: "35px",
+  height: "36px",
 });
 
 const containerStyle = {
@@ -21,22 +22,53 @@ const containerStyle = {
 
 export default function IntegratedFilter({ onLineChange, onRecipeChange }) {
   const [selectedLine, setSelectedLine] = useState(""); // 선택된 라인 상태
-  const [selectedRecipe, setSelectedRecipe] = useState(""); // 선택된 라인 상태
+  //const [selectedRecipe, setSelectedRecipe] = useState(""); // 선택된 라인 상태
+  const [customRecipe, setCustomRecipe] = useState(""); // 검색 추가
+  const [recipes] = useState([
+    "TEST_RECIPE_001",
+    "TEST_RECIPE_002",
+    "TEST_RECIPE_003",
+  ]);
 
   const handleLineChange = (event) => {
     const line = event.target.value;
     setSelectedLine(line);
   };
 
-  const handleRecipeChange = (event) => {
-    const recipe = event.target.value;
-    setSelectedRecipe(recipe);
+  // const handleRecipeChange = (event) => {
+  //   const recipe = event.target.value;
+  //   setSelectedRecipe(recipe);
+  // };
+
+  const handleCustomRecipeChange = (event) => {
+    // 검색 추가
+    const customRecipeValue = event.target.value;
+    setCustomRecipe(customRecipeValue);
   };
 
   const handleSearch = () => {
     onLineChange(selectedLine); // 검색 버튼 클릭 시 선택된 라인을 부모 컴포넌트로 전달
-    onRecipeChange(selectedRecipe);
-    console.log("Line, Recipe 선택", selectedLine, selectedRecipe);
+    //    onRecipeChange(selectedRecipe);
+
+    if (customRecipe.trim() === "") {
+      onRecipeChange(""); // 전체 데이터를 보여줌
+    } else {
+      const matchedRecipe = recipes.find((recipe) =>
+        recipe.includes(customRecipe)
+      );
+      onRecipeChange(matchedRecipe || customRecipe);
+      console.log(
+        "Line, Recipe 선택",
+        selectedLine,
+        matchedRecipe || customRecipe
+      );
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -56,7 +88,7 @@ export default function IntegratedFilter({ onLineChange, onRecipeChange }) {
       </div>
       <div>
         <span style={{ fontSize: "20px", fontWeight: "bold" }}> Recipe </span>
-        <StyledSelect
+        {/* <StyledSelect
           onChange={handleRecipeChange}
           style={{ width: "140px", marginLeft: "10px" }}
         >
@@ -64,7 +96,20 @@ export default function IntegratedFilter({ onLineChange, onRecipeChange }) {
           <option value="TEST_RECIPE_001">TEST_RECIPE_001</option>
           <option value="TEST_RECIPE_002">TEST_RECIPE_002</option>
           <option value="TEST_RECIPE_003">TEST_RECIPE_003</option>
-        </StyledSelect>
+        </StyledSelect> */}
+        <TextField
+          // label="입력"
+          variant="outlined"
+          size="small"
+          onChange={handleCustomRecipeChange}
+          onKeyDown={handleKeyPress}
+          style={{ marginLeft: "10px", marginRight: "10px" }}
+          sx={{
+            marginLeft: "10px",
+            height: "35px",
+            width: "140px",
+          }}
+        />
       </div>
       <Button
         variant="contained"
