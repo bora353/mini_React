@@ -2,13 +2,6 @@ import React from "react";
 import Bar from "../components/Bar";
 import Title from "../components/Title";
 import File from "../components/File";
-import Select from "../components/Select";
-import Searchall from "../components/Searchall";
-
-// const searchallStyle = {
-//   marginLeft: "150px",
-//   marginBottom: "-50px",
-// };
 
 const flexContainerStyle = {
   display: "flex",
@@ -22,12 +15,7 @@ export default function FileCheckPage() {
     <div>
       <Bar />
       <Title />
-      <div style={flexContainerStyle}>
-        {/* <Select />
-        <div style={searchallStyle}>
-          <Searchall />
-        </div> */}
-      </div>
+      <div style={flexContainerStyle}></div>
       <File />
     </div>
   );

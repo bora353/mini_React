@@ -18,19 +18,6 @@ export default function Rms() {
   const [rmsSelectedData, setRmsSelectedData] = useState([]); // 선택한 데이터
   const [dmSelectedData, setDmSelectedData] = useState([]); // 선택한 데이터
 
-  const handleDateSelect = (type, start, end) => {
-    setDateType(type);
-    setStartDate(start);
-    setEndDate(end);
-    console.log(dateType, start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD"));
-  };
-
-  //테스트중(기존코드)
-  // const location = useLocation();
-  // const selectedData = location.state.selectedData;
-  // const [data, setData] = useState(selectedData);
-
-  //--------
   const [data, setData] = useState([]);
   const location = useLocation();
 
@@ -68,11 +55,11 @@ export default function Rms() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   return (
     <div>
       <Bar />
       <Title />
-
       <div
         style={{
           display: "flex",
@@ -85,7 +72,6 @@ export default function Rms() {
           CSV <SaveAltIcon fontSize="small" style={{ cursor: "pointer" }} />
         </Button>
       </div>
-
       {isModalOpen && (
         <TransferModal_integrated
           open={isModalOpen}
@@ -97,12 +83,9 @@ export default function Rms() {
       {/* <div>
         <pre>{JSON.stringify(selectedData, null, 2)}</pre>
         <p>LotId: {data[0].LotId}</p>
-        <p>LineId: {data[0].LineId}</p>
-        <p>StepId: {data[0].StepId}</p>
-        <p>DeviceId: {data[0].DeviceId}</p>
-        <p>EquipId: {data[0].EquipId}</p>
         <p>RecipeId: {data[0].RecipeId}</p>
       </div> */}
+
       <RmsData_integrated
         IntegratedRecipeId={data.RecipeId}
         setRmsSelectedData={setRmsSelectedData}

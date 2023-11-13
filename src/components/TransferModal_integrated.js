@@ -65,11 +65,10 @@ export default function TransferModal_integrated({
       dmData: dmSelectedData,
       selectedOption: selectedOption,
     };
-    console.log("재확인: " + JSON.stringify(dmSelectedData));
+    //console.log("재확인: " + JSON.stringify(dmSelectedData));
 
     //POST 요청 보내기
     axios
-      //.post("/api/csv/integrated", requestData)
       .post("/api/csv/integrated", JSON.stringify(requestData), {
         headers: {
           "Content-Type": "application/json",

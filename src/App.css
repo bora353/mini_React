@@ -11,12 +11,12 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.5); /* 배경 뒷배경 불투명도 조절 */
-  z-index: 9999; /* 모달을 가장 위로 표시 */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
 }
 
 .modal-content {
-  background: #fff; /* 모달 내부 배경색 설정 */
+  background: #fff;
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

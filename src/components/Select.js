@@ -3,16 +3,9 @@ import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"; // DateTimePicker를 사용합니다.
-//import Button from "@mui/material/Button";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { styled } from "@mui/material/styles";
-
-// const buttonStyle = {
-//   marginLeft: "5px",
-//   height: "55px",
-//   marginTop: "10px",
-// };
+import Button from "@mui/material/Button";
 
 const containerStyle = {
   display: "flex",
@@ -42,25 +35,29 @@ export default function Select({ onDateSelect }) {
 
   const handleDateTypeChange = (event) => {
     setDateType(event.target.value);
-    onDateSelect(dateType, startDate, endDate);
+    //onDateSelect(dateType, startDate, endDate);
     console.log("데이터 타입:", event.target.value);
   };
 
   const handleStartDateChange = (newValue) => {
     setStartDate(newValue);
-    onDateSelect(dateType, startDate, endDate);
+    //onDateSelect(dateType, startDate, endDate);
     console.log("시작일:", newValue.format("YYYY-MM-DD"));
   };
 
   const handleEndDateChange = (newValue) => {
     setEndDate(newValue);
-    onDateSelect(dateType, startDate, endDate);
+    //onDateSelect(dateType, startDate, endDate);
     console.log("종료일:", newValue.format("YYYY-MM-DD"));
   };
 
-  React.useEffect(() => {
+  const handleSearchClick = () => {
     onDateSelect(dateType, startDate, endDate);
-  }, [dateType, startDate, endDate, onDateSelect]);
+  };
+
+  // React.useEffect(() => {
+  //   onDateSelect(dateType, startDate, endDate);
+  // }, [dateType, startDate, endDate, onDateSelect]);
 
   return (
     <div style={{ marginTop: "30px" }}>
@@ -82,13 +79,13 @@ export default function Select({ onDateSelect }) {
               onChange={handleEndDateChange}
             />
           </DemoContainer>
-          {/* <Button
+          <Button
             onClick={handleSearchClick}
-            variant="outlined"
-            style={buttonStyle}
+            variant="contained"
+            style={{ marginLeft: "10px", marginTop: "10px", height: "55px" }}
           >
             검색
-          </Button> */}
+          </Button>
         </div>
       </LocalizationProvider>
     </div>

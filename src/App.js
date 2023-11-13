@@ -5,7 +5,6 @@ import DataSearchPage from "./pages/DataSearchPage";
 import FileCheckPage from "./pages/FileCheckPage";
 import IntegratedDataPage from "./pages/IntegratedDataPage";
 import Rms from "./pages/Rms";
-import Loading from "./components/Loading";
 
 function App() {
   return (

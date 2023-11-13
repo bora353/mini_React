@@ -8,7 +8,6 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { Route, Routes, Link, Outlet } from "react-router-dom";
 import FileCheckPage from "../pages/FileCheckPage";
-import SummaryPage from "../pages/SummaryPage";
 import IntegratedDataPage from "../pages/IntegratedDataPage";
 import DataSearchPage from "../pages/DataSearchPage";
 

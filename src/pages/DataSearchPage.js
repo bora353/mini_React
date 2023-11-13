@@ -4,11 +4,6 @@ import Select from "../components/Select";
 import Title from "../components/Title";
 import LotWafer from "../components/LotWafer";
 
-const searchallStyle = {
-  marginLeft: "150px",
-  marginBottom: "-50px",
-};
-
 const flexContainerStyle = {
   display: "flex",
   alignItems: "center",
@@ -42,9 +37,6 @@ export default function DataSearchPage() {
       <Title />
       <div style={flexContainerStyle}>
         <Select onDateSelect={handleDateSelect} />
-        {/* <div style={searchallStyle}>
-          <Searchall onSearch={handleSearch} />
-        </div> */}
       </div>
       <LotWafer
         searchQuery={searchQuery}
